@@ -1,0 +1,395 @@
+{
+  "_comment": "Ручной seed-список. update_ru_domains.py только ДОБАВЛЯЕТ сюда домены из upstream, ничего не удаляя. Правьте свободно.",
+  "groups": {
+    "yandex": {
+      "title": "Яндекс Браузер / общая инфраструктура",
+      "upstream": [
+        "yandex"
+      ],
+      "domains": [
+        "domain:yandex.ru",
+        "domain:yandex.net",
+        "domain:yandex.com",
+        "domain:ya.ru",
+        "domain:yastatic.net",
+        "domain:yandexcloud.net",
+        "domain:yandex.st",
+        "domain:appmetrica.yandex.ru",
+        "domain:yandexmetrica.com",
+        "domain:mds.yandex.net"
+      ]
+    },
+    "yandex-maps": {
+      "title": "Яндекс Карты",
+      "upstream": [
+        "yandex"
+      ],
+      "domains": [
+        "domain:maps.yandex.ru",
+        "domain:maps.yandex.net",
+        "domain:static-maps.yandex.ru",
+        "domain:core-renderer-tiles.maps.yandex.net",
+        "domain:tiles.maps.yandex.net",
+        "domain:yandexnavi.ru"
+      ]
+    },
+    "vk": {
+      "title": "ВКонтакте",
+      "upstream": [
+        "vk"
+      ],
+      "domains": [
+        "domain:vk.com",
+        "domain:vk.ru",
+        "domain:vkontakte.ru",
+        "domain:userapi.com",
+        "domain:vk-cdn.net",
+        "domain:vk-cdn.com",
+        "domain:vkuser.net",
+        "domain:vkuseraudio.net",
+        "domain:vkuseraudio.com",
+        "domain:vkuserlive.com",
+        "domain:vkgroup.net",
+        "domain:vkforms.ru",
+        "domain:vkcdn.ru",
+        "domain:mycdn.me",
+        "domain:vk.me",
+        "domain:vkplay.ru",
+        "domain:vkplay.live"
+      ]
+    },
+    "vk-video": {
+      "title": "VK Видео",
+      "upstream": [
+        "vk"
+      ],
+      "domains": [
+        "domain:vkvideo.ru",
+        "domain:vkvideo.com",
+        "domain:vkuservideo.net",
+        "domain:vkuservideo.com",
+        "domain:vkvd.ru"
+      ]
+    },
+    "vk-music": {
+      "title": "VK Music",
+      "upstream": [
+        "vk"
+      ],
+      "domains": [
+        "domain:music.vk.com",
+        "domain:music.vk.ru",
+        "domain:boom.ru",
+        "domain:vkmusic.ru"
+      ]
+    },
+    "mts": {
+      "title": "Мой МТС",
+      "upstream": [
+        "mts-ru"
+      ],
+      "domains": [
+        "domain:mts.ru",
+        "domain:mtsbank.ru",
+        "domain:mts.link",
+        "domain:mtstv.ru",
+        "domain:mts-corp.ru",
+        "domain:mts-service.ru",
+        "domain:mts.money"
+      ]
+    },
+    "sber": {
+      "title": "Сбербанк Онлайн",
+      "upstream": [
+        "sber"
+      ],
+      "domains": [
+        "domain:sberbank.ru",
+        "domain:sberbank.com",
+        "domain:sber.ru",
+        "domain:sbrf.ru",
+        "domain:sberbank-online.ru",
+        "domain:sberdevices.ru",
+        "domain:sbercdn.ru",
+        "domain:sberauth.ru",
+        "domain:sberpay.ru",
+        "domain:gosuslugi.ru"
+      ]
+    },
+    "tbank": {
+      "title": "Т-Банк",
+      "upstream": [
+        "tbank-ru"
+      ],
+      "domains": [
+        "domain:tbank.ru",
+        "domain:tinkoff.ru",
+        "domain:tinkoff.com",
+        "domain:tcsbank.ru",
+        "domain:tbank.tech",
+        "domain:cdn-tinkoff.ru",
+        "domain:tinkoffinsurance.ru"
+      ]
+    },
+    "vtb": {
+      "title": "ВТБ Онлайн",
+      "upstream": [],
+      "domains": [
+        "domain:vtb.ru",
+        "domain:vtb24.ru",
+        "domain:vtb-online.ru",
+        "domain:vtbbank.ru"
+      ]
+    },
+    "alfabank": {
+      "title": "Альфа-Банк",
+      "upstream": [],
+      "domains": [
+        "domain:alfabank.ru",
+        "domain:alfabank.com",
+        "domain:alfabank.st",
+        "domain:alfabank.servicecdn.ru",
+        "domain:alfa.ru"
+      ]
+    },
+    "banks-ru": {
+      "title": "Российские банки (общий список апстрима)",
+      "upstream": [
+        "category-bank-ru"
+      ],
+      "domains": []
+    },
+    "gov-ru": {
+      "title": "Госсервисы: ФНС, Госуслуги, Мой налог",
+      "upstream": [
+        "category-gov-ru"
+      ],
+      "domains": [
+        "domain:nalog.ru",
+        "domain:nalog.gov.ru",
+        "domain:gosuslugi.ru",
+        "domain:esia.gosuslugi.ru",
+        "domain:pos.gosuslugi.ru"
+      ]
+    },
+    "wildberries": {
+      "title": "Wildberries",
+      "upstream": [
+        "wildberries"
+      ],
+      "domains": [
+        "domain:wildberries.ru",
+        "domain:wildberries.by",
+        "domain:wildberries.kz",
+        "domain:wildberries.eu",
+        "domain:wb.ru",
+        "domain:wbbasket.ru",
+        "domain:wbstatic.net",
+        "domain:wbcon.ru",
+        "domain:wbpay.ru"
+      ]
+    },
+    "ozon": {
+      "title": "Ozon",
+      "upstream": [
+        "ozon"
+      ],
+      "domains": [
+        "domain:ozon.ru",
+        "domain:ozon.com",
+        "domain:ozone.ru",
+        "domain:ozonru.net",
+        "domain:ozstatic.by",
+        "domain:ozonbank.ru",
+        "domain:o3.ru"
+      ]
+    },
+    "megamarket": {
+      "title": "MegaMarket",
+      "upstream": [],
+      "domains": [
+        "domain:megamarket.ru",
+        "domain:sbermegamarket.ru",
+        "domain:megamarket.tech",
+        "domain:goods.ru"
+      ]
+    },
+    "samokat": {
+      "title": "Самокат",
+      "upstream": [],
+      "domains": [
+        "domain:samokat.ru",
+        "domain:samokat.tech"
+      ]
+    },
+    "kinopoisk": {
+      "title": "Кинопоиск",
+      "upstream": [
+        "kinopoisk"
+      ],
+      "domains": [
+        "domain:kinopoisk.ru",
+        "domain:kinopoisk.vip",
+        "domain:hd.kinopoisk.ru",
+        "domain:strm.yandex.ru",
+        "domain:strm.yandex.net"
+      ]
+    },
+    "yandex-music": {
+      "title": "Yandex Music",
+      "upstream": [
+        "yandex"
+      ],
+      "domains": [
+        "domain:music.yandex.ru",
+        "domain:music.yandex.com",
+        "domain:music.yandex.net",
+        "domain:storage.mds.yandex.net",
+        "domain:avatars.yandex.net"
+      ]
+    },
+    "rustore": {
+      "title": "RuStore",
+      "upstream": [],
+      "domains": [
+        "domain:rustore.ru",
+        "domain:rustore.dev",
+        "domain:vkrustore.ru"
+      ]
+    },
+    "avito": {
+      "title": "Avito",
+      "upstream": [
+        "avito"
+      ],
+      "domains": [
+        "domain:avito.ru",
+        "domain:avito.st",
+        "domain:avito.ma",
+        "domain:avito-cdn.ru",
+        "domain:avitoscope.ru"
+      ]
+    },
+    "2gis": {
+      "title": "2ГИС",
+      "upstream": [
+        "2gis"
+      ],
+      "domains": [
+        "domain:2gis.ru",
+        "domain:2gis.com",
+        "domain:2gis.io",
+        "domain:2gis.kz",
+        "domain:2gis.online"
+      ]
+    },
+    "ok": {
+      "title": "Одноклассники",
+      "upstream": [
+        "ok"
+      ],
+      "domains": [
+        "domain:ok.ru",
+        "domain:odnoklassniki.ru",
+        "domain:odnoklassniki.com",
+        "domain:okcdn.ru",
+        "domain:ok.me"
+      ]
+    },
+    "max": {
+      "title": "MAX",
+      "upstream": [],
+      "domains": [
+        "domain:max.ru",
+        "domain:oneme.ru",
+        "domain:tamtam.chat"
+      ]
+    },
+    "rutube": {
+      "title": "Rutube",
+      "upstream": [
+        "rutube"
+      ],
+      "domains": [
+        "domain:rutube.ru",
+        "domain:rutu.be",
+        "domain:rutube.io",
+        "domain:rutubelist.ru"
+      ]
+    },
+    "mailru": {
+      "title": "Mail.ru / VK ID",
+      "upstream": [
+        "mailru",
+        "mailru-group"
+      ],
+      "domains": [
+        "domain:mail.ru",
+        "domain:imgsmail.ru",
+        "domain:mradx.net",
+        "domain:my.games"
+      ]
+    },
+    "apple": {
+      "title": "iOS: APNs, App Store, iCloud",
+      "upstream": [],
+      "domains": [
+        "domain:push.apple.com",
+        "domain:appattest.apple.com",
+        "domain:captive.apple.com",
+        "domain:time.apple.com",
+        "domain:time-ios.apple.com",
+        "domain:ocsp.apple.com",
+        "domain:ocsp2.apple.com",
+        "domain:valid.apple.com",
+        "domain:crl.apple.com",
+        "domain:gs.apple.com",
+        "domain:albert.apple.com",
+        "domain:apps.apple.com",
+        "domain:itunes.apple.com",
+        "domain:mzstatic.com",
+        "domain:cdn-apple.com",
+        "domain:aaplimg.com",
+        "domain:icloud.com",
+        "domain:icloud-content.com",
+        "domain:apple-cloudkit.com"
+      ]
+    },
+    "android": {
+      "title": "Android: Play, captive portal, время",
+      "upstream": [
+        "google-play"
+      ],
+      "domains": [
+        "domain:android.com",
+        "domain:connectivitycheck.gstatic.com",
+        "domain:dl.google.com",
+        "domain:android.clients.google.com",
+        "domain:play.googleapis.com",
+        "domain:gvt1.com",
+        "domain:gvt2.com",
+        "domain:gvt3.com"
+      ]
+    },
+    "huawei": {
+      "title": "Huawei-сервисы (не-Google прошивки)",
+      "upstream": [],
+      "domains": [
+        "domain:hicloud.com",
+        "domain:dbankcdn.com",
+        "domain:huawei.com",
+        "domain:hispace.dbankcloud.ru"
+      ]
+    },
+    "payments": {
+      "title": "СБП / Mir Pay",
+      "upstream": [],
+      "domains": [
+        "domain:nspk.ru",
+        "domain:mironline.ru",
+        "domain:psbank.ru",
+        "domain:raiffeisen.ru"
+      ]
+    }
+  }
+}

@@ -1,0 +1,12 @@
+[Unit]
+Description=Обновление доменных списков роутинга Xray
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/ru-routing
+ExecStart=/usr/bin/python3 /opt/ru-routing/update-all.py
+# Токен панели — в отдельном файле с правами 600, а не в юните.
+EnvironmentFile=-/opt/ru-routing/.env
+TimeoutStartSec=300

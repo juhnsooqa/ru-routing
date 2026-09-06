@@ -1,0 +1,390 @@
+{
+  "name": "RU apps bypass (только приложения)",
+  "remarks": "Ручной список без доменов из апстрима",
+  "domainStrategy": "IPIfNonMatch",
+  "rules": [
+    {
+      "type": "field",
+      "ip": [
+        "geoip:private"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:fcm.googleapis.com",
+        "domain:firebaseinstallations.googleapis.com",
+        "domain:android.googleapis.com",
+        "domain:mtalk.google.com",
+        "domain:alt1-mtalk.google.com",
+        "domain:alt2-mtalk.google.com",
+        "domain:alt3-mtalk.google.com",
+        "domain:alt4-mtalk.google.com",
+        "domain:alt5-mtalk.google.com",
+        "domain:alt6-mtalk.google.com",
+        "domain:alt7-mtalk.google.com",
+        "domain:alt8-mtalk.google.com"
+      ],
+      "outboundTag": "proxy"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:yandex.ru",
+        "domain:yandex.net",
+        "domain:yandex.com",
+        "domain:ya.ru",
+        "domain:yastatic.net",
+        "domain:yandexcloud.net",
+        "domain:yandex.st",
+        "domain:appmetrica.yandex.ru",
+        "domain:yandexmetrica.com",
+        "domain:mds.yandex.net"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:maps.yandex.ru",
+        "domain:maps.yandex.net",
+        "domain:static-maps.yandex.ru",
+        "domain:core-renderer-tiles.maps.yandex.net",
+        "domain:tiles.maps.yandex.net",
+        "domain:yandexnavi.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:vk.com",
+        "domain:vk.ru",
+        "domain:vkontakte.ru",
+        "domain:userapi.com",
+        "domain:vk-cdn.net",
+        "domain:vk-cdn.com",
+        "domain:vkuser.net",
+        "domain:vkuseraudio.net",
+        "domain:vkuseraudio.com",
+        "domain:vkuserlive.com",
+        "domain:vkgroup.net",
+        "domain:vkforms.ru",
+        "domain:vkcdn.ru",
+        "domain:mycdn.me",
+        "domain:vk.me",
+        "domain:vkplay.ru",
+        "domain:vkplay.live"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:vkvideo.ru",
+        "domain:vkvideo.com",
+        "domain:vkuservideo.net",
+        "domain:vkuservideo.com",
+        "domain:vkvd.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:music.vk.com",
+        "domain:music.vk.ru",
+        "domain:boom.ru",
+        "domain:vkmusic.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:mts.ru",
+        "domain:mtsbank.ru",
+        "domain:mts.link",
+        "domain:mtstv.ru",
+        "domain:mts-corp.ru",
+        "domain:mts-service.ru",
+        "domain:mts.money"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:sberbank.ru",
+        "domain:sberbank.com",
+        "domain:sber.ru",
+        "domain:sbrf.ru",
+        "domain:sberbank-online.ru",
+        "domain:sberdevices.ru",
+        "domain:sbercdn.ru",
+        "domain:sberauth.ru",
+        "domain:sberpay.ru",
+        "domain:gosuslugi.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:tbank.ru",
+        "domain:tinkoff.ru",
+        "domain:tinkoff.com",
+        "domain:tcsbank.ru",
+        "domain:tbank.tech",
+        "domain:cdn-tinkoff.ru",
+        "domain:tinkoffinsurance.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:vtb.ru",
+        "domain:vtb24.ru",
+        "domain:vtb-online.ru",
+        "domain:vtbbank.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:alfabank.ru",
+        "domain:alfabank.com",
+        "domain:alfabank.st",
+        "domain:alfabank.servicecdn.ru",
+        "domain:alfa.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:nalog.ru",
+        "domain:nalog.gov.ru",
+        "domain:gosuslugi.ru",
+        "domain:esia.gosuslugi.ru",
+        "domain:pos.gosuslugi.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:wildberries.ru",
+        "domain:wildberries.by",
+        "domain:wildberries.kz",
+        "domain:wildberries.eu",
+        "domain:wb.ru",
+        "domain:wbbasket.ru",
+        "domain:wbstatic.net",
+        "domain:wbcon.ru",
+        "domain:wbpay.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:ozon.ru",
+        "domain:ozon.com",
+        "domain:ozone.ru",
+        "domain:ozonru.net",
+        "domain:ozstatic.by",
+        "domain:ozonbank.ru",
+        "domain:o3.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:megamarket.ru",
+        "domain:sbermegamarket.ru",
+        "domain:megamarket.tech",
+        "domain:goods.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:samokat.ru",
+        "domain:samokat.tech"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:kinopoisk.ru",
+        "domain:kinopoisk.vip",
+        "domain:hd.kinopoisk.ru",
+        "domain:strm.yandex.ru",
+        "domain:strm.yandex.net"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:music.yandex.ru",
+        "domain:music.yandex.com",
+        "domain:music.yandex.net",
+        "domain:storage.mds.yandex.net",
+        "domain:avatars.yandex.net"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:rustore.ru",
+        "domain:rustore.dev",
+        "domain:vkrustore.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:avito.ru",
+        "domain:avito.st",
+        "domain:avito.ma",
+        "domain:avito-cdn.ru",
+        "domain:avitoscope.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:2gis.ru",
+        "domain:2gis.com",
+        "domain:2gis.io",
+        "domain:2gis.kz",
+        "domain:2gis.online"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:ok.ru",
+        "domain:odnoklassniki.ru",
+        "domain:odnoklassniki.com",
+        "domain:okcdn.ru",
+        "domain:ok.me"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:max.ru",
+        "domain:oneme.ru",
+        "domain:tamtam.chat"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:rutube.ru",
+        "domain:rutu.be",
+        "domain:rutube.io",
+        "domain:rutubelist.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:mail.ru",
+        "domain:imgsmail.ru",
+        "domain:mradx.net",
+        "domain:my.games"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:push.apple.com",
+        "domain:appattest.apple.com",
+        "domain:captive.apple.com",
+        "domain:time.apple.com",
+        "domain:time-ios.apple.com",
+        "domain:ocsp.apple.com",
+        "domain:ocsp2.apple.com",
+        "domain:valid.apple.com",
+        "domain:crl.apple.com",
+        "domain:gs.apple.com",
+        "domain:albert.apple.com",
+        "domain:apps.apple.com",
+        "domain:itunes.apple.com",
+        "domain:mzstatic.com",
+        "domain:cdn-apple.com",
+        "domain:aaplimg.com",
+        "domain:icloud.com",
+        "domain:icloud-content.com",
+        "domain:apple-cloudkit.com"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:android.com",
+        "domain:connectivitycheck.gstatic.com",
+        "domain:dl.google.com",
+        "domain:android.clients.google.com",
+        "domain:play.googleapis.com",
+        "domain:gvt1.com",
+        "domain:gvt2.com",
+        "domain:gvt3.com"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:hicloud.com",
+        "domain:dbankcdn.com",
+        "domain:huawei.com",
+        "domain:hispace.dbankcloud.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:nspk.ru",
+        "domain:mironline.ru",
+        "domain:psbank.ru",
+        "domain:raiffeisen.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "ip": [
+        "17.0.0.0/8"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "protocol": [
+        "bittorrent"
+      ],
+      "outboundTag": "direct"
+    }
+  ]
+}

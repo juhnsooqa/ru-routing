@@ -1,0 +1,14 @@
+[Unit]
+Description=Запуск обновления доменов раз в 2 дня
+
+[Timer]
+# Первый запуск через 15 минут после загрузки, дальше каждые 48 часов.
+OnBootSec=15min
+OnUnitActiveSec=2d
+# Если сервер был выключен в момент срабатывания — догнать при следующем старте.
+Persistent=true
+# Разброс до часа, чтобы не долбить GitHub в одну и ту же секунду со всех нод.
+RandomizedDelaySec=1h
+
+[Install]
+WantedBy=timers.target

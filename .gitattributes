@@ -1,0 +1,7 @@
+# Гео-файлы бинарные: без этого git на Windows может подменить переводы строк
+# внутри protobuf и файлы приедут битыми.
+*.dat binary
+*.json text eol=lf
+*.py   text eol=lf
+*.md   text eol=lf
+*.yml  text eol=lf

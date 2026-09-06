@@ -1,0 +1,77 @@
+name: Обновление списков
+
+on:
+  schedule:
+    # Раз в 2 дня в 04:00 UTC. Cron в GitHub Actions использует день месяца,
+    # поэтому на стыке месяцев запуск может прийтись на два дня подряд —
+    # это безвредно: коммит делается только при реальных изменениях.
+    - cron: "0 4 */2 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Обновить домены из апстрима
+        run: python update_ru_domains.py
+
+      - name: Проверки
+        run: python test_update_offline.py
+
+      - name: Собрать geosite.dat и geoip.dat
+        run: python build_dat.py --verify
+
+      - name: Профили и ссылки
+        run: python make_profiles.py
+
+      - name: Проверить .dat настоящим Xray
+        run: |
+          set -e
+          curl -sL -o xray.zip https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip
+          unzip -o -q xray.zip xray
+          chmod +x xray
+          cp dist/ru-routing-geosite.dat dist/ru-routing-geoip.dat .
+          cat > check.json <<'JSON'
+          {
+            "inbounds": [{"port": 11080, "listen": "127.0.0.1", "protocol": "socks", "settings": {"auth": "noauth"}}],
+            "outbounds": [{"tag": "direct", "protocol": "freedom"}, {"tag": "block", "protocol": "blackhole"}],
+            "routing": {"rules": [
+              {"type": "field", "domain": ["ext:ru-routing-geosite.dat:ru-apps"], "outboundTag": "direct"},
+              {"type": "field", "ip": ["ext:ru-routing-geoip.dat:ru", "ext:ru-routing-geoip.dat:apple"], "outboundTag": "direct"},
+              {"type": "field", "ip": ["ext:ru-routing-geoip.dat:private"], "outboundTag": "block"}
+            ]}
+          }
+          JSON
+          XRAY_LOCATION_ASSET=. ./xray run -test -config check.json
+          rm -f xray xray.zip check.json ru-routing-geosite.dat ru-routing-geoip.dat
+
+      - name: Закоммитить изменения
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A dist
+          if git diff --cached --quiet; then
+            echo "изменений нет"
+          else
+            git commit -m "Обновление списков $(date -u +%Y-%m-%d)"
+            git push
+          fi
+
+      - name: Выложить .dat в релиз latest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh release view latest >/dev/null 2>&1; then
+            gh release create latest --title "Актуальные гео-файлы" \
+              --notes "Обновляется автоматически раз в 2 дня. Ссылки в dist/links.md."
+          fi
+          gh release upload latest dist/ru-routing-geosite.dat dist/ru-routing-geoip.dat --clobber
