@@ -34,7 +34,7 @@ Avito, 2ГИС, Одноклассники, MAX, Rutube, Mail.ru, ФНС и Го
 Incy — клиент на Xray-core, гео-файлы ему не подсунуть, поэтому он получает
 полный список доменов по ссылке. Схема `autorouting` включает автообновление:
 
-    incy://autorouting/add/https://raw.githubusercontent.com/USER/REPO/main/dist/incy-routing.json
+    incy://autorouting/add/https://raw.githubusercontent.com/juhnsooqa/ru-routing/main/dist/incy-routing.json
 
 Разовый импорт без автообновления — `incy://routing/add/{base64}`, тоже в
 [`dist/links.md`](dist/links.md).
