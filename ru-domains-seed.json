@@ -222,6 +222,25 @@
         "domain:samokat.tech"
       ]
     },
+    "food": {
+      "title": "Фастфуд: Вкусно и точка, Ростикс",
+      "upstream": [],
+      "domains": [
+        "domain:vkusnoitochka.ru",
+        "domain:rostics.ru",
+        "domain:kfc.ru"
+      ]
+    },
+    "azs": {
+      "title": "АЗС: Газпром и Газпромнефть",
+      "upstream": [],
+      "domains": [
+        "domain:azsgazprom.ru",
+        "domain:gazprom-neft.ru",
+        "domain:gpnbonus.ru",
+        "domain:opti-24.ru"
+      ]
+    },
     "kinopoisk": {
       "title": "Кинопоиск",
       "upstream": [

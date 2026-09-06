@@ -799,6 +799,17 @@
     "domain:samokat.ru",
     "domain:samokat.tech"
   ],
+  "food": [
+    "domain:vkusnoitochka.ru",
+    "domain:rostics.ru",
+    "domain:kfc.ru"
+  ],
+  "azs": [
+    "domain:azsgazprom.ru",
+    "domain:gazprom-neft.ru",
+    "domain:gpnbonus.ru",
+    "domain:opti-24.ru"
+  ],
   "kinopoisk": [
     "domain:kinopoisk.ru",
     "domain:kinopoisk.vip",

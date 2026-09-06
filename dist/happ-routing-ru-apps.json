@@ -895,6 +895,25 @@
     {
       "type": "field",
       "domain": [
+        "domain:vkusnoitochka.ru",
+        "domain:rostics.ru",
+        "domain:kfc.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:azsgazprom.ru",
+        "domain:gazprom-neft.ru",
+        "domain:gpnbonus.ru",
+        "domain:opti-24.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
         "domain:kinopoisk.ru",
         "domain:kinopoisk.vip",
         "domain:hd.kinopoisk.ru",
