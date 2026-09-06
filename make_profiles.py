@@ -174,6 +174,33 @@ def main():
     print("happ-профиль:  %5d символов в ссылке" % len(happ_b64))
     print("incy-роутинг:  %5d символов в ссылке, %d правил" % (len(incy_b64), len(incy["rules"])))
     print("записано: dist/happ-profile.json, dist/incy-routing.json, dist/links.md")
+    # Страница с кнопками: GitHub вырезает ссылки на happ:// и incy:// из markdown,
+    # кликабельными они бывают только в настоящем HTML.
+    tpl_path = os.path.join(BASE_DIR, "templates", "page.html")
+    if os.path.exists(tpl_path):
+        with open(tpl_path, encoding="utf-8") as fh:
+            page = fh.read()
+        with open(os.path.join(DIST, "merged-domains.json"), encoding="utf-8") as fh:
+            merged = json.load(fh)
+        subs = {
+            "__HAPP_ADD__": "happ://routing/add/" + happ_b64,
+            "__HAPP_ONADD__": "happ://routing/onadd/" + happ_b64,
+            "__INCY_AUTO__": "incy://autorouting/add/" + incy_url,
+            "__INCY_ONCE__": "incy://routing/add/" + incy_b64,
+            "__REL__": "https://github.com/%s/releases/latest/download" % slug,
+            "__RAW__": raw,
+            "__REPO_URL__": "https://github.com/%s" % slug,
+            "__COUNT__": str(len({d for v in merged.values() for d in v})),
+            "__CATS__": str(len(merged)),
+        }
+        for key, value in subs.items():
+            page = page.replace(key, value)
+        docs = os.path.join(BASE_DIR, "docs")
+        os.makedirs(docs, exist_ok=True)
+        with open(os.path.join(docs, "index.html"), "w", encoding="utf-8") as fh:
+            fh.write(page)
+        print("страница: docs/index.html")
+
     return 0
 
 

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RU routing — добавить роутинг</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #fff; --fg: #14171a; --muted: #5b6570;
+    --line: #e3e6ea; --accent: #2f6feb; --accent-fg: #fff; --code: #f0f2f5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1216; --card: #171b21; --fg: #e7eaee; --muted: #9aa4b0;
+      --line: #262c35; --accent: #4c8dff; --accent-fg: #0b0e12; --code: #11151a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 32px 20px 64px; background: var(--bg); color: var(--fg);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 28px; margin: 0 0 6px; letter-spacing: -0.02em; }
+  .lead { color: var(--muted); margin: 0 0 28px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 22px; margin-bottom: 18px;
+  }
+  .card h2 { font-size: 20px; margin: 0 0 4px; }
+  .card p { color: var(--muted); margin: 0 0 18px; font-size: 15px; }
+  .btn {
+    display: block; width: 100%; padding: 14px 18px; margin-bottom: 10px;
+    background: var(--accent); color: var(--accent-fg); border: 0; border-radius: 10px;
+    font: 600 16px/1 inherit; text-align: center; text-decoration: none; cursor: pointer;
+  }
+  .btn.sec { background: transparent; color: var(--fg); border: 1px solid var(--line); font-weight: 500; }
+  .btn:active { opacity: .8; }
+  .qr { margin: 18px auto 4px; width: 176px; height: 176px; background: #fff; padding: 8px; border-radius: 10px; }
+  .qr img, .qr canvas { display: block; width: 100%; height: 100%; }
+  .qr-note { text-align: center; color: var(--muted); font-size: 13px; margin: 0; }
+  .meta { color: var(--muted); font-size: 13px; margin: 14px 0 0; }
+  code { background: var(--code); padding: 2px 6px; border-radius: 5px; font-size: 13px;
+         font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }
+  .files a { color: var(--accent); }
+  .files div { margin-bottom: 6px; font-size: 14px; }
+  footer { color: var(--muted); font-size: 13px; text-align: center; margin-top: 32px; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>RU routing</h1>
+  <p class="lead">Российские сервисы идут напрямую, всё остальное — через туннель.
+     Доменов: __COUNT__, категорий: __CATS__. Откройте эту страницу на устройстве
+     с установленным приложением и нажмите кнопку.</p>
+
+  <div class="card">
+    <h2>Happ</h2>
+    <p>Профиль весит меньше килобайта: списки лежат в наших гео-файлах, приложение
+       скачивает их само и обновляет раз в неделю.</p>
+    <a class="btn" href="__HAPP_ONADD__">Добавить и включить</a>
+    <a class="btn sec" href="__HAPP_ADD__">Только добавить</a>
+    <div class="qr" id="qr-happ"></div>
+    <p class="qr-note">Отсканируйте, чтобы открыть на телефоне</p>
+  </div>
+
+  <div class="card">
+    <h2>Incy</h2>
+    <p>Гео-файлы Incy не поддерживает, поэтому получает полный список по ссылке.
+       Вариант с автообновлением сам перечитывает его — список обновляется раз в 2 дня.</p>
+    <a class="btn" href="__INCY_AUTO__">Добавить с автообновлением</a>
+    <a class="btn sec" href="__INCY_ONCE__">Разово, без автообновления</a>
+    <div class="qr" id="qr-incy"></div>
+    <p class="qr-note">Отсканируйте, чтобы открыть на телефоне</p>
+  </div>
+
+  <div class="card files">
+    <h2>Файлы</h2>
+    <p>Для панели Remnawave, десктопного Xray и ручной настройки.</p>
+    <div><a href="__REL__/ru-routing-geosite.dat">ru-routing-geosite.dat</a> — домены</div>
+    <div><a href="__REL__/ru-routing-geoip.dat">ru-routing-geoip.dat</a> — IP-диапазоны</div>
+    <div><a href="__RAW__/dist/routing-ru-apps.json">routing-ru-apps.json</a> — секция routing для Xray</div>
+    <div><a href="__RAW__/dist/incy-routing.json">incy-routing.json</a> — правила для Incy</div>
+    <p class="meta">Ссылка для автообновления в Incy, если нужна текстом:<br>
+       <code>__INCY_AUTO__</code></p>
+  </div>
+
+  <footer>Обновляется автоматически раз в 2 дня &middot;
+    <a href="__REPO_URL__">исходники на GitHub</a></footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+  // QR — только мостик «десктоп → телефон». Не загрузился скрипт или ссылка
+  // длиннее лимита QR — просто убираем блок, кнопки работают в любом случае.
+  function qr(id, text) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var note = el.nextElementSibling;
+    try {
+      if (typeof QRCode === 'undefined' || text.length > 2900) throw new Error('skip');
+      new QRCode(el, { text: text, width: 160, height: 160, correctLevel: QRCode.CorrectLevel.L });
+    } catch (e) {
+      el.remove();
+      if (note && note.classList.contains('qr-note')) note.remove();
+    }
+  }
+  qr('qr-happ', "__HAPP_ONADD__");
+  qr('qr-incy', "__INCY_AUTO__");
+</script>
+</body>
+</html>
