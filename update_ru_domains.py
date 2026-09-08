@@ -40,8 +40,11 @@ UPSTREAM = "https://raw.githubusercontent.com/v2fly/domain-list-community/master
 TIMEOUT = 30
 RETRIES = 3
 
-# Атрибуты v2fly, которые нам не нужны в белом списке.
+# Атрибуты v2fly, которые не нужны в белом списке: рекламные поддомены
+# российских сервисов идут напрямую только во вред.
 SKIP_ATTRS = ("@ads", "@cn", "@!cn")
+# Для блок-списков всё наоборот: @ads — это ровно то, что мы блокируем.
+BLOCK_SKIP_ATTRS = ("@cn", "@!cn")
 
 
 # --------------------------------------------------------------------------
@@ -59,6 +62,7 @@ def static_rules(profile):
             ],
             "tail": [],
             "direct": "DIRECT",
+            "block": "BLOCK",
         }
     if profile == "client":
         # Готовый конфиг Xray для клиента. Отличие от happ-шаблона — явное
@@ -70,11 +74,11 @@ def static_rules(profile):
                 {"type": "field", "domain": GOOGLE_PUSH, "outboundTag": "proxy"},
             ],
             "tail": [
-                {"type": "field", "ip": ["17.0.0.0/8"], "outboundTag": "direct"},
                 {"type": "field", "protocol": ["bittorrent"], "outboundTag": "direct"},
                 {"type": "field", "network": "tcp,udp", "outboundTag": "proxy"},
             ],
             "direct": "direct",
+            "block": "block",
         }
     # На клиенте: локалка нужна (роутер, принтер, NAS), торренты мимо туннеля,
     # FCM наоборот В туннель — в РФ google push режется.
@@ -84,10 +88,10 @@ def static_rules(profile):
             {"type": "field", "domain": GOOGLE_PUSH, "outboundTag": "proxy"},
         ],
         "tail": [
-            {"type": "field", "ip": ["17.0.0.0/8"], "outboundTag": "direct"},
             {"type": "field", "protocol": ["bittorrent"], "outboundTag": "direct"},
         ],
         "direct": "direct",
+        "block": "block",
     }
 
 
@@ -137,12 +141,19 @@ def fetch(name):
     raise RuntimeError("не удалось скачать %s: %s" % (url, last))
 
 
-def parse_list(text, name, seen=None):
-    """Разобрать формат v2fly. include: разворачивается рекурсивно."""
+def parse_list(text, name, seen=None, skip=SKIP_ATTRS, require=None):
+    """Разобрать формат v2fly.
+
+    include: разворачивается рекурсивно. Атрибут на строке include сужает
+    выборку: 'include:yandex @ads' берёт из файла yandex только записи,
+    помеченные @ads, а не весь файл целиком. Без этого блок-список рекламы
+    втягивает домены сервисов и уводит их в блокировку.
+    """
     seen = seen if seen is not None else set()
-    if name in seen:
+    key = (name, require)
+    if key in seen:
         return []
-    seen.add(name)
+    seen.add(key)
 
     out = []
     for raw in text.splitlines():
@@ -151,28 +162,36 @@ def parse_list(text, name, seen=None):
             continue
         parts = line.split()
         entry, attrs = parts[0], parts[1:]
-        if any(a in SKIP_ATTRS for a in attrs):
-            continue
 
         if entry.startswith("include:"):
             child = entry.split(":", 1)[1]
+            # атрибут после include сужает выборку из вложенного файла
+            child_require = next((a for a in attrs if a.startswith("@")), require)
             body = fetch(child)
             if body is None:
                 log("  include:%s отсутствует в upstream — пропущен" % child)
                 continue
-            out.extend(parse_list(body, child, seen))
-        elif entry.startswith("full:"):
+            out.extend(parse_list(body, child, seen, skip, child_require))
+            continue
+
+        if require and require not in attrs:
+            continue
+        if any(a in skip for a in attrs):
+            continue
+
+        if entry.startswith("full:"):
             out.append("full:" + entry.split(":", 1)[1])
         elif entry.startswith("keyword:") or entry.startswith("regexp:"):
-            continue  # слишком широко для белого списка, пропускаем осознанно
+            continue  # слишком широко, пропускаем осознанно
         else:
             out.append("domain:" + entry.split(":", 1)[-1])
     return out
 
 
 def collect(seed, offline=False):
-    """seed-группы + upstream. Возвращает (группы, статистика)."""
+    """seed-группы + upstream. Возвращает (группы, действия, статистика)."""
     groups = collections.OrderedDict()
+    actions = collections.OrderedDict()
     stats = {"added": 0, "missing": [], "sources": 0}
     cache = {}
 
@@ -183,22 +202,33 @@ def collect(seed, offline=False):
     for grp in seed["groups"].values():
         known.update(grp["domains"])
 
-    for key, grp in seed["groups"].items():
+    # Порядок обработки: сначала блок-группы. Иначе российская рекламная сеть,
+    # попавшая в апстрим-список какого-нибудь сервиса, будет занята direct-группой
+    # и в блок уже не попадёт — дедупликация сквозная.
+    order = ([k for k, g in seed["groups"].items() if g.get("action") == "block"] +
+             [k for k, g in seed["groups"].items() if g.get("action") != "block"])
+
+    for key in order:
+        grp = seed["groups"][key]
         domains = list(grp["domains"])
+        action = grp.get("action", "direct")
+        actions[key] = action
+        skip = BLOCK_SKIP_ATTRS if action == "block" else SKIP_ATTRS
 
         if not offline:
             for src in grp.get("upstream", []):
-                if src not in cache:
+                ckey = (src, action)
+                if ckey not in cache:
                     body = fetch(src)
-                    cache[src] = parse_list(body, src) if body is not None else None
-                    if cache[src] is None:
+                    cache[ckey] = parse_list(body, src, None, skip) if body is not None else None
+                    if cache[ckey] is None:
                         stats["missing"].append(src)
                         log("  список '%s' отсутствует в upstream" % src)
                     else:
                         stats["sources"] += 1
-                if not cache[src]:
+                if not cache[ckey]:
                     continue
-                for dom in cache[src]:
+                for dom in cache[ckey]:
                     if dom not in known:
                         known.add(dom)
                         domains.append(dom)
@@ -206,18 +236,27 @@ def collect(seed, offline=False):
                         log("  + %-14s %s" % (key, dom))
 
         groups[key] = domains
-    return groups, stats
+
+    ordered = collections.OrderedDict((k, groups[k]) for k in seed["groups"])
+    ordered_actions = collections.OrderedDict((k, actions[k]) for k in seed["groups"])
+    return ordered, ordered_actions, stats
 
 
 # --------------------------------------------------------------------------
 # Сборка конфигов
 # --------------------------------------------------------------------------
 
-def build_rules(groups, profile):
+def build_rules(groups, profile, actions=None):
+    """Блок-правила ставятся выше direct: реклама внутри российского сервиса
+    должна отсекаться, а не проезжать по правилу этого сервиса."""
+    actions = actions or {}
     st = static_rules(profile)
     rules = list(st["head"])
-    for domains in groups.values():
-        if domains:
+    for key, domains in groups.items():
+        if domains and actions.get(key, "direct") == "block":
+            rules.append({"type": "field", "domain": domains, "outboundTag": st["block"]})
+    for key, domains in groups.items():
+        if domains and actions.get(key, "direct") != "block":
             rules.append({"type": "field", "domain": domains, "outboundTag": st["direct"]})
     rules.extend(st["tail"])
     return rules
@@ -239,11 +278,11 @@ def happ_link(doc):
     return "happ://routing/add/" + base64.b64encode(minified.encode("utf-8")).decode("ascii")
 
 
-def build_outputs(groups):
+def build_outputs(groups, actions):
     """Готовит {путь: содержимое} для всех генерируемых файлов."""
     out = {}
 
-    server_routing = {"domainStrategy": "IPIfNonMatch", "rules": build_rules(groups, "server")}
+    server_routing = {"domainStrategy": "IPIfNonMatch", "rules": build_rules(groups, "server", actions)}
     out["dist/routing-ru-apps.json"] = dumps({"routing": server_routing})
 
     block = json.loads(dumps({"routing": server_routing}).replace('"DIRECT"', '"BLOCK"'))
@@ -263,7 +302,7 @@ def build_outputs(groups):
         client.setdefault("routing", {})
         client["routing"]["domainMatcher"] = client["routing"].get("domainMatcher", "hybrid")
         client["routing"]["domainStrategy"] = "IPIfNonMatch"
-        client["routing"]["rules"] = build_rules(groups, "client")
+        client["routing"]["rules"] = build_rules(groups, "client", actions)
         out[fname] = dumps(client)
 
     happ = read_json(os.path.join(BASE_DIR, "dist", "happ-routing-ru-apps.json")) or {}
@@ -271,12 +310,14 @@ def build_outputs(groups):
         ("name", happ.get("name", "RU apps bypass")),
         ("remarks", happ.get("remarks", "Российские приложения напрямую, остальное через прокси")),
         ("domainStrategy", "IPIfNonMatch"),
-        ("rules", build_rules(groups, "happ")),
+        ("rules", build_rules(groups, "happ", actions)),
     ])
     out["dist/happ-routing-ru-apps.json"] = dumps(happ_doc)
 
     # Машинно-читаемый срез для build_dat.py — чтобы не тянуть апстрим дважды.
-    out["dist/merged-domains.json"] = dumps(collections.OrderedDict(groups))
+    out["dist/merged-domains.json"] = dumps(collections.OrderedDict(
+        (k, collections.OrderedDict([("action", actions.get(k, "direct")),
+                                     ("domains", v)])) for k, v in groups.items()))
 
     seed_only = collections.OrderedDict(
         (k, list(v["domains"])) for k, v in read_json(SEED)["groups"].items())
@@ -284,7 +325,7 @@ def build_outputs(groups):
         ("name", "RU apps bypass (только приложения)"),
         ("remarks", "Ручной список без доменов из апстрима"),
         ("domainStrategy", "IPIfNonMatch"),
-        ("rules", build_rules(seed_only, "happ")),
+        ("rules", build_rules(seed_only, "happ", actions)),
     ])
     out["dist/happ-routing-apps-only.json"] = dumps(apps_doc)
 
@@ -387,7 +428,7 @@ def main():
         return 1
 
     try:
-        groups, stats = collect(seed, offline=args.offline)
+        groups, actions, stats = collect(seed, offline=args.offline)
     except RuntimeError as exc:
         # Сеть отвалилась — оставляем текущие файлы как есть, они рабочие.
         log("ОШИБКА: %s" % exc)
@@ -395,7 +436,7 @@ def main():
         return 2
 
     total = sum(len(v) for v in groups.values())
-    outputs = build_outputs(groups)
+    outputs = build_outputs(groups, actions)
     changed = write_outputs(outputs, args.dry_run)
 
     log("источников: %d, доменов: %d, новых: %d" % (stats["sources"], total, stats["added"]))

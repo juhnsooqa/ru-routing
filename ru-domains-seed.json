@@ -241,6 +241,14 @@
         "domain:opti-24.ru"
       ]
     },
+    "rzd": {
+      "title": "РЖД",
+      "upstream": [],
+      "domains": [
+        "domain:rzd.ru",
+        "domain:rzd-bonus.ru"
+      ]
+    },
     "kinopoisk": {
       "title": "Кинопоиск",
       "upstream": [
@@ -349,57 +357,6 @@
         "domain:my.games"
       ]
     },
-    "apple": {
-      "title": "iOS: APNs, App Store, iCloud",
-      "upstream": [],
-      "domains": [
-        "domain:push.apple.com",
-        "domain:appattest.apple.com",
-        "domain:captive.apple.com",
-        "domain:time.apple.com",
-        "domain:time-ios.apple.com",
-        "domain:ocsp.apple.com",
-        "domain:ocsp2.apple.com",
-        "domain:valid.apple.com",
-        "domain:crl.apple.com",
-        "domain:gs.apple.com",
-        "domain:albert.apple.com",
-        "domain:apps.apple.com",
-        "domain:itunes.apple.com",
-        "domain:mzstatic.com",
-        "domain:cdn-apple.com",
-        "domain:aaplimg.com",
-        "domain:icloud.com",
-        "domain:icloud-content.com",
-        "domain:apple-cloudkit.com"
-      ]
-    },
-    "android": {
-      "title": "Android: Play, captive portal, время",
-      "upstream": [
-        "google-play"
-      ],
-      "domains": [
-        "domain:android.com",
-        "domain:connectivitycheck.gstatic.com",
-        "domain:dl.google.com",
-        "domain:android.clients.google.com",
-        "domain:play.googleapis.com",
-        "domain:gvt1.com",
-        "domain:gvt2.com",
-        "domain:gvt3.com"
-      ]
-    },
-    "huawei": {
-      "title": "Huawei-сервисы (не-Google прошивки)",
-      "upstream": [],
-      "domains": [
-        "domain:hicloud.com",
-        "domain:dbankcdn.com",
-        "domain:huawei.com",
-        "domain:hispace.dbankcloud.ru"
-      ]
-    },
     "payments": {
       "title": "СБП / Mir Pay",
       "upstream": [],
@@ -408,6 +365,20 @@
         "domain:mironline.ru",
         "domain:psbank.ru",
         "domain:raiffeisen.ru"
+      ]
+    },
+    "ads": {
+      "title": "Реклама и трекеры — в блокировку",
+      "action": "block",
+      "upstream": [
+        "category-ads-all"
+      ],
+      "domains": [
+        "domain:adriver.ru",
+        "domain:criteo.com",
+        "domain:criteo.net",
+        "domain:mytarget.my.com",
+        "domain:adsmart.ru"
       ]
     }
   }

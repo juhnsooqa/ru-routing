@@ -31,6 +31,17 @@
     {
       "type": "field",
       "domain": [
+        "domain:adriver.ru",
+        "domain:criteo.com",
+        "domain:criteo.net",
+        "domain:mytarget.my.com",
+        "domain:adsmart.ru"
+      ],
+      "outboundTag": "block"
+    },
+    {
+      "type": "field",
+      "domain": [
         "domain:yandex.ru",
         "domain:yandex.net",
         "domain:yandex.com",
@@ -242,6 +253,14 @@
     {
       "type": "field",
       "domain": [
+        "domain:rzd.ru",
+        "domain:rzd-bonus.ru"
+      ],
+      "outboundTag": "direct"
+    },
+    {
+      "type": "field",
+      "domain": [
         "domain:kinopoisk.ru",
         "domain:kinopoisk.vip",
         "domain:hd.kinopoisk.ru",
@@ -335,66 +354,10 @@
     {
       "type": "field",
       "domain": [
-        "domain:push.apple.com",
-        "domain:appattest.apple.com",
-        "domain:captive.apple.com",
-        "domain:time.apple.com",
-        "domain:time-ios.apple.com",
-        "domain:ocsp.apple.com",
-        "domain:ocsp2.apple.com",
-        "domain:valid.apple.com",
-        "domain:crl.apple.com",
-        "domain:gs.apple.com",
-        "domain:albert.apple.com",
-        "domain:apps.apple.com",
-        "domain:itunes.apple.com",
-        "domain:mzstatic.com",
-        "domain:cdn-apple.com",
-        "domain:aaplimg.com",
-        "domain:icloud.com",
-        "domain:icloud-content.com",
-        "domain:apple-cloudkit.com"
-      ],
-      "outboundTag": "direct"
-    },
-    {
-      "type": "field",
-      "domain": [
-        "domain:android.com",
-        "domain:connectivitycheck.gstatic.com",
-        "domain:dl.google.com",
-        "domain:android.clients.google.com",
-        "domain:play.googleapis.com",
-        "domain:gvt1.com",
-        "domain:gvt2.com",
-        "domain:gvt3.com"
-      ],
-      "outboundTag": "direct"
-    },
-    {
-      "type": "field",
-      "domain": [
-        "domain:hicloud.com",
-        "domain:dbankcdn.com",
-        "domain:huawei.com",
-        "domain:hispace.dbankcloud.ru"
-      ],
-      "outboundTag": "direct"
-    },
-    {
-      "type": "field",
-      "domain": [
         "domain:nspk.ru",
         "domain:mironline.ru",
         "domain:psbank.ru",
         "domain:raiffeisen.ru"
-      ],
-      "outboundTag": "direct"
-    },
-    {
-      "type": "field",
-      "ip": [
-        "17.0.0.0/8"
       ],
       "outboundTag": "direct"
     },

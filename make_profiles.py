@@ -76,7 +76,6 @@ def happ_profile(slug):
         "DirectSites": ["geosite:ru-apps"],
         "DirectIp": [
             "geoip:ru",
-            "geoip:apple",
             "10.0.0.0/8",
             "172.16.0.0/12",
             "192.168.0.0/16",
@@ -86,9 +85,10 @@ def happ_profile(slug):
         ],
         # FCM намеренно не попадает ни в одну direct-категорию:
         # в РФ google push режется, ему нужен туннель.
+        # Реклама и трекеры — в блокировку отдельной категорией.
         "ProxySites": [],
         "ProxyIp": [],
-        "BlockSites": [],
+        "BlockSites": ["geosite:ads"],
         "BlockIp": [],
         "DomainStrategy": "IPIfNonMatch",
         "FakeDNS": "false",
@@ -103,6 +103,23 @@ def incy_routing():
     doc["name"] = "RU bypass"
     doc["remarks"] = "Российские сервисы напрямую, остальное через прокси"
     return doc
+
+
+LIMIT_ONCE = 20000
+
+
+def incy_once_block(incy_b64):
+    """Кнопка разового импорта — только если ссылка вменяемой длины.
+
+    С блокировкой рекламы список раздувается до сотен килобайт, и deeplink
+    такой длины ни один клиент не примет. Вариант с автообновлением работает
+    всегда, потому что передаёт ссылку, а не сам список."""
+    if len(incy_b64) <= LIMIT_ONCE:
+        return ('<a class="btn sec" href="incy://routing/add/%s">'
+                'Разово, без автообновления</a>' % incy_b64)
+    return ('<p class="meta">Разовый импорт ссылкой недоступен: со списком '
+            'блокировки профиль весит %d КБ, столько в deeplink не помещается. '
+            'Используйте вариант с автообновлением выше.</p>' % (len(incy_b64) // 1024))
 
 
 def main():
@@ -151,10 +168,21 @@ def main():
         "",
         "    incy://autorouting/add/%s" % incy_url,
         "",
-        "Разово, без автообновления (%d символов):" % len(incy_b64),
-        "",
-        "    incy://routing/add/%s" % incy_b64,
-        "",
+    ]
+    if len(incy_b64) <= LIMIT_ONCE:
+        lines += [
+            "Разово, без автообновления (%d символов):" % len(incy_b64),
+            "",
+            "    incy://routing/add/%s" % incy_b64,
+            "",
+        ]
+    else:
+        lines += [
+            "Разовый импорт ссылкой недоступен: со списком блокировки профиль",
+            "весит %d КБ — столько в deeplink не помещается." % (len(incy_b64) // 1024),
+            "",
+        ]
+    lines += [
         "## Прямые ссылки на файлы",
         "",
         "    geosite: https://github.com/%s/releases/latest/download/ru-routing-geosite.dat" % slug,
@@ -186,12 +214,17 @@ def main():
             "__HAPP_ADD__": "happ://routing/add/" + happ_b64,
             "__HAPP_ONADD__": "happ://routing/onadd/" + happ_b64,
             "__INCY_AUTO__": "incy://autorouting/add/" + incy_url,
-            "__INCY_ONCE__": "incy://routing/add/" + incy_b64,
+            "__INCY_ONCE_BLOCK__": incy_once_block(incy_b64),
             "__REL__": "https://github.com/%s/releases/latest/download" % slug,
             "__RAW__": raw,
             "__REPO_URL__": "https://github.com/%s" % slug,
-            "__COUNT__": str(len({d for v in merged.values() for d in v})),
-            "__CATS__": str(len(merged)),
+            "__COUNT__": str(len({d for v in merged.values()
+                                  if v.get("action", "direct") != "block"
+                                  for d in v["domains"]})),
+            "__CATS__": str(sum(1 for v in merged.values()
+                                if v.get("action", "direct") != "block")),
+            "__ADS__": str(sum(len(v["domains"]) for v in merged.values()
+                               if v.get("action", "direct") == "block")),
         }
         for key, value in subs.items():
             page = page.replace(key, value)

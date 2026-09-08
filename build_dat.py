@@ -24,6 +24,7 @@
 """
 
 import argparse
+import collections
 import ipaddress
 import json
 import os
@@ -44,8 +45,6 @@ PRIVATE = [
     "172.16.0.0/12", "192.0.0.0/24", "192.168.0.0/16", "198.18.0.0/15",
     "224.0.0.0/4", "240.0.0.0/4", "255.255.255.255/32", "::1/128", "fc00::/7", "fe80::/10",
 ]
-APPLE_NET = ["17.0.0.0/8"]
-
 PLAIN, REGEX, DOMAIN, FULL = 0, 1, 2, 3
 
 
@@ -224,12 +223,17 @@ def main():
         return 1
     groups = json.load(open(MERGED, encoding="utf-8"))
 
-    # Категории: по одной на группу + сводная ru-apps со всем сразу.
-    categories = dict(groups)
+    # Категории: по одной на группу + сводная ru-apps.
+    # В ru-apps попадают только direct-группы: реклама живёт отдельной
+    # категорией ads, иначе сводная категория пускала бы её напрямую.
+    categories = collections.OrderedDict(
+        (name, grp["domains"]) for name, grp in groups.items())
     everything = []
     seen = set()
-    for entries in groups.values():
-        for e in entries:
+    for name, grp in groups.items():
+        if grp.get("action", "direct") == "block":
+            continue
+        for e in grp["domains"]:
             if e not in seen:
                 seen.add(e)
                 everything.append(e)
@@ -240,12 +244,14 @@ def main():
     with open(site_path, "wb") as fh:
         fh.write(encode_geosite(categories))
 
-    print("geosite: %d категорий, %d доменов -> %s" % (
-        len(categories), len(everything), os.path.basename(site_path)))
+    blocked = sum(len(g["domains"]) for g in groups.values()
+                  if g.get("action", "direct") == "block")
+    print("geosite: %d категорий, %d доменов напрямую, %d в блокировку -> %s" % (
+        len(categories), len(everything), blocked, os.path.basename(site_path)))
 
     print("качаю российские диапазоны...")
     ru = fetch_lines(IPV4_URL) + fetch_lines(IPV6_URL)
-    ip_groups = {"ru": ru, "apple": APPLE_NET, "private": PRIVATE}
+    ip_groups = {"ru": ru, "private": PRIVATE}
 
     ip_path = os.path.join(DIST, "ru-routing-geoip.dat")
     with open(ip_path, "wb") as fh:
