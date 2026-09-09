@@ -7,6 +7,16 @@ on:
     # это безвредно: коммит делается только при реальных изменениях.
     - cron: "0 4 */2 * *"
   workflow_dispatch:
+  # Прогон на push по исходникам: поломку проверочного шага иначе видно
+  # только на следующем плановом запуске, то есть через сутки.
+  # Сам workflow коммитит только dist/ и docs/, поэтому себя не перезапускает.
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/update.yml'
+      - '*.py'
+      - 'ru-domains-seed.json'
+      - 'templates/**'
 
 permissions:
   contents: write
@@ -36,23 +46,14 @@ jobs:
       - name: Проверить .dat настоящим Xray
         run: |
           set -e
-          curl -sL -o xray.zip https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip
+          curl -fsSL -o xray.zip https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-64.zip
           unzip -o -q xray.zip xray
           chmod +x xray
           cp dist/ru-routing-geosite.dat dist/ru-routing-geoip.dat .
-          cat > check.json <<'JSON'
-          {
-            "inbounds": [{"port": 11080, "listen": "127.0.0.1", "protocol": "socks", "settings": {"auth": "noauth"}}],
-            "outbounds": [{"tag": "direct", "protocol": "freedom"}, {"tag": "block", "protocol": "blackhole"}],
-            "routing": {"rules": [
-              {"type": "field", "domain": ["ext:ru-routing-geosite.dat:ru-apps"], "outboundTag": "direct"},
-              {"type": "field", "ip": ["ext:ru-routing-geoip.dat:ru", "ext:ru-routing-geoip.dat:apple"], "outboundTag": "direct"},
-              {"type": "field", "ip": ["ext:ru-routing-geoip.dat:private"], "outboundTag": "block"}
-            ]}
-          }
-          JSON
-          XRAY_LOCATION_ASSET=. ./xray run -test -config check.json
-          rm -f xray xray.zip check.json ru-routing-geosite.dat ru-routing-geoip.dat
+          # Конфиг сгенерирован build_dat.py и ссылается на каждую собранную
+          # категорию — захардкоженный список рассинхронизировался бы с .dat.
+          XRAY_LOCATION_ASSET=. ./xray run -test -config dist/xray-check.json
+          rm -f xray xray.zip ru-routing-geosite.dat ru-routing-geoip.dat
 
       - name: Закоммитить изменения
         run: |

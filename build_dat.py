@@ -213,6 +213,35 @@ def fetch_lines(url):
             if l.strip() and not l.startswith("#")]
 
 
+def write_check_config(path, site_categories, ip_categories):
+    """Конфиг, который ссылается на каждую собранную категорию.
+
+    Его прогоняет `xray run -test` в CI. Список категорий берётся из того же
+    места, что и сами .dat, поэтому рассинхрон невозможен: пропала категория —
+    пропала и ссылка на неё.
+    """
+    rules = []
+    for name in site_categories:
+        rules.append({"type": "field",
+                      "domain": ["ext:ru-routing-geosite.dat:%s" % name],
+                      "outboundTag": "block" if name == "ads" else "direct"})
+    for name in ip_categories:
+        rules.append({"type": "field",
+                      "ip": ["ext:ru-routing-geoip.dat:%s" % name],
+                      "outboundTag": "block" if name == "private" else "direct"})
+    config = {
+        "inbounds": [{"port": 11080, "listen": "127.0.0.1", "protocol": "socks",
+                      "settings": {"auth": "noauth"}}],
+        "outbounds": [{"tag": "direct", "protocol": "freedom"},
+                      {"tag": "block", "protocol": "blackhole"}],
+        "routing": {"domainStrategy": "IPIfNonMatch", "rules": rules},
+    }
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump(config, fh, ensure_ascii=False, indent=2)
+        fh.write("\n")
+    return len(rules)
+
+
 def main():
     ap = argparse.ArgumentParser(description="Сборка geosite.dat и geoip.dat")
     ap.add_argument("--verify", action="store_true", help="проверить файлы обратным разбором")
@@ -264,6 +293,10 @@ def main():
         print("проверка geosite: %d категорий, %d доменов — ok" % (len(names), total))
         names, total = verify_geoip(ip_path, ip_groups)
         print("проверка geoip: %d категорий, %d диапазонов — ok" % (len(names), total))
+
+    check_path = os.path.join(DIST, "xray-check.json")
+    n = write_check_config(check_path, list(categories), list(ip_groups))
+    print("проверочный конфиг: %d правил -> %s" % (n, os.path.basename(check_path)))
 
     for path in (site_path, ip_path):
         print("  %s — %.1f КБ" % (os.path.basename(path), os.path.getsize(path) / 1024.0))
