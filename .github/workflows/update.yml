@@ -71,8 +71,31 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          set -e
+          python - <<'PY' > notes.md
+          import json
+          v = json.load(open("dist/version.json", encoding="utf-8"))
+          print("Собрано **%s**." % v["built_at"])
+          print()
+          print("| | |")
+          print("|---|---|")
+          print("| Напрямую | %d доменов |" % v["domains_direct"])
+          print("| В блокировку | %d доменов |" % v["domains_blocked"])
+          print()
+          print("Обновляется автоматически раз в 2 дня. Тег `latest` не меняется,")
+          print("ссылки на файлы всегда актуальны.")
+          print()
+          print("sha256:")
+          print()
+          for name, digest in v["files"].items():
+              print("    %-26s %s" % (name, digest))
+          PY
           if ! gh release view latest >/dev/null 2>&1; then
-            gh release create latest --title "Актуальные гео-файлы" \
-              --notes "Обновляется автоматически раз в 2 дня. Ссылки в dist/links.md."
+            gh release create latest --title "Гео-файлы" --notes-file notes.md
           fi
           gh release upload latest dist/ru-routing-geosite.dat dist/ru-routing-geoip.dat --clobber
+          # Заголовок и описание перезаписываем каждый раз: иначе на странице
+          # релиза висит дата его создания и кажется, что ничего не обновляется.
+          BUILT=$(python -c "import json;print(json.load(open('dist/version.json'))['built_at'][:10])")
+          gh release edit latest --title "Гео-файлы от $BUILT" --notes-file notes.md
+          rm -f notes.md
