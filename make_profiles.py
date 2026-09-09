@@ -22,6 +22,9 @@ GitHub Actions), затем из файла repo.txt. Если ничего не
 
 import argparse
 import base64
+import collections
+import datetime
+import hashlib
 import json
 import os
 import sys
@@ -122,6 +125,16 @@ def incy_once_block(incy_b64):
             'Используйте вариант с автообновлением выше.</p>' % (len(incy_b64) // 1024))
 
 
+def sha256_of(path):
+    with open(path, "rb") as fh:
+        return hashlib.sha256(fh.read()).hexdigest()
+
+
+def merged_groups():
+    with open(os.path.join(DIST, "merged-domains.json"), encoding="utf-8") as fh:
+        return json.load(fh)
+
+
 def main():
     ap = argparse.ArgumentParser(description="Профили и deeplink-ссылки")
     ap.add_argument("--repo", help="слаг репозитория, например username/ru-routing")
@@ -198,6 +211,29 @@ def main():
     with open(os.path.join(DIST, "links.md"), "w", encoding="utf-8") as fh:
         fh.write("\n".join(lines))
 
+    # Профиль отдельным файлом в base64: его забирает панель, чтобы отдавать
+    # в заголовке подписки — тогда обновление доезжает до клиента само.
+    with open(os.path.join(DIST, "happ-profile.b64"), "w", encoding="utf-8") as fh:
+        fh.write(happ_b64 + "\n")
+
+    # Манифест: по нему видно, что именно сейчас лежит в релизе.
+    built = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    manifest = collections.OrderedDict([
+        ("built_at", built),
+        ("repo", slug),
+        ("domains_direct", sum(len(v["domains"]) for v in merged_groups().values()
+                               if v.get("action", "direct") != "block")),
+        ("domains_blocked", sum(len(v["domains"]) for v in merged_groups().values()
+                                if v.get("action", "direct") == "block")),
+        ("files", collections.OrderedDict(
+            (name, sha256_of(os.path.join(DIST, name)))
+            for name in ("ru-routing-geosite.dat", "ru-routing-geoip.dat",
+                         "incy-routing.json", "happ-profile.json")
+            if os.path.exists(os.path.join(DIST, name)))),
+    ])
+    with open(os.path.join(DIST, "version.json"), "w", encoding="utf-8") as fh:
+        fh.write(dumps(manifest))
+
     print("репозиторий: %s%s" % (slug, "  (заглушка!)" if slug == PLACEHOLDER else ""))
     print("happ-профиль:  %5d символов в ссылке" % len(happ_b64))
     print("incy-роутинг:  %5d символов в ссылке, %d правил" % (len(incy_b64), len(incy["rules"])))
@@ -221,6 +257,8 @@ def main():
             "__COUNT__": str(len({d for v in merged.values()
                                   if v.get("action", "direct") != "block"
                                   for d in v["domains"]})),
+            "__BUILT__": datetime.datetime.now(datetime.timezone.utc)
+                        .strftime("%d.%m.%Y в %H:%M UTC"),
             "__CATS__": str(sum(1 for v in merged.values()
                                 if v.get("action", "direct") != "block")),
             "__ADS__": str(sum(len(v["domains"]) for v in merged.values()
