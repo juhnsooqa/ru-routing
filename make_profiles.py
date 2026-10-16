@@ -25,6 +25,7 @@ import base64
 import collections
 import datetime
 import hashlib
+import html
 import json
 import os
 import sys
@@ -123,6 +124,24 @@ def incy_once_block(incy_b64):
     return ('<p class="meta">Разовый импорт ссылкой недоступен: со списком '
             'блокировки профиль весит %d КБ, столько в deeplink не помещается. '
             'Используйте вариант с автообновлением выше.</p>' % (len(incy_b64) // 1024))
+
+
+def cats_list(merged):
+    """Чипы категорий для страницы: название из seed, число доменов, ключ geosite в подсказке.
+    Реклама идёт последней и помечена: это блок-список, а не прямой доступ."""
+    seed_path = os.path.join(BASE_DIR, "ru-domains-seed.json")
+    titles = {}
+    if os.path.exists(seed_path):
+        with open(seed_path, encoding="utf-8") as fh:
+            titles = {k: g.get("title", k) for k, g in json.load(fh)["groups"].items()}
+    items = sorted(merged.items(), key=lambda kv: kv[1].get("action", "direct") == "block")
+    chips = []
+    for key, grp in items:
+        block = grp.get("action", "direct") == "block"
+        chips.append('<span class="chip%s" title="geosite: %s">%s <i>%d</i></span>' % (
+            " block" if block else "", html.escape(key), html.escape(titles.get(key, key)),
+            len(grp["domains"])))
+    return "\n      ".join(chips)
 
 
 def sha256_of(path):
@@ -261,6 +280,7 @@ def main():
                         .strftime("%d.%m.%Y в %H:%M UTC"),
             "__CATS__": str(sum(1 for v in merged.values()
                                 if v.get("action", "direct") != "block")),
+            "__CATS_LIST__": cats_list(merged),
             "__ADS__": str(sum(len(v["domains"]) for v in merged.values()
                                if v.get("action", "direct") == "block")),
         }

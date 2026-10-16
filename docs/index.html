@@ -4,93 +4,241 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RU routing — добавить роутинг</title>
+<meta name="description" content="Роутинг для Happ и Incy: российские сервисы напрямую, остальное через туннель, реклама в блок.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2321a3ad'/%3E%3Cpath d='M9 23V9h6.5a4.5 4.5 0 0 1 0 9H9m6.5 0L22 23' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
   :root {
-    --bg: #f6f7f9; --card: #fff; --fg: #14171a; --muted: #5b6570;
-    --line: #e3e6ea; --accent: #2f6feb; --accent-fg: #fff; --code: #f0f2f5;
+    --bg: #f4f6f8; --card: #fff; --fg: #12161b; --muted: #5a6572; --line: #e2e6eb;
+    --accent: #1a8f99; --accent-soft: #e3f4f5; --accent-fg: #fff; --code: #eef1f4;
+    --ok: #1f8a4c; --stop: #c2410c; --shadow: 0 1px 2px rgba(16,24,40,.04), 0 4px 16px rgba(16,24,40,.05);
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #0f1216; --card: #171b21; --fg: #e7eaee; --muted: #9aa4b0;
-      --line: #262c35; --accent: #4c8dff; --accent-fg: #0b0e12; --code: #11151a;
+      --bg: #0d1117; --card: #151b23; --fg: #e6edf3; --muted: #8d96a0; --line: #252d38;
+      --accent: #39c5cf; --accent-soft: #10292c; --accent-fg: #061214; --code: #0f141a;
+      --ok: #3fb950; --stop: #f0883e; --shadow: none;
     }
   }
   * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
   body {
-    margin: 0; padding: 32px 20px 64px; background: var(--bg); color: var(--fg);
-    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    margin: 0; padding: 28px 16px 56px; background: var(--bg); color: var(--fg);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   }
   .wrap { max-width: 720px; margin: 0 auto; }
-  h1 { font-size: 28px; margin: 0 0 6px; letter-spacing: -0.02em; }
-  .lead { color: var(--muted); margin: 0 0 28px; }
-  .card {
-    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
-    padding: 22px; margin-bottom: 18px;
-  }
-  .card h2 { font-size: 20px; margin: 0 0 4px; }
-  .card p { color: var(--muted); margin: 0 0 18px; font-size: 15px; }
+  a { color: var(--accent); }
+
+  header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .logo { width: 44px; height: 44px; flex: none; border-radius: 12px; background: var(--accent); display: grid; place-items: center; }
+  .logo svg { width: 26px; height: 26px; }
+  h1 { font-size: 28px; line-height: 1.15; margin: 0; letter-spacing: -0.02em; }
+  .sub { color: var(--muted); font-size: 14px; margin: 2px 0 0; }
+  .lead { margin: 0 0 22px; font-size: 17px; }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0 0 22px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; box-shadow: var(--shadow); }
+  .stat b { display: block; font-size: 22px; line-height: 1.2; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+  .stat span { color: var(--muted); font-size: 13px; line-height: 1.3; display: block; }
+  .stat .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+
+  .how { display: flex; gap: 10px; align-items: flex-start; background: var(--accent-soft); border-radius: 12px; padding: 12px 14px; margin: 0 0 18px; font-size: 14px; }
+  .how svg { flex: none; width: 18px; height: 18px; margin-top: 2px; color: var(--accent); }
+
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 22px; margin-bottom: 16px; box-shadow: var(--shadow); }
+  .card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .card h2 { font-size: 20px; margin: 0; letter-spacing: -0.01em; }
+  .tag { font-size: 12px; font-weight: 600; color: var(--accent); background: var(--accent-soft); padding: 2px 8px; border-radius: 999px; }
+  .card > p { color: var(--muted); margin: 0 0 18px; font-size: 15px; }
+
   .btn {
-    display: block; width: 100%; padding: 14px 18px; margin-bottom: 10px;
-    background: var(--accent); color: var(--accent-fg); border: 0; border-radius: 10px;
-    font: 600 16px/1 inherit; text-align: center; text-decoration: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 50px;
+    padding: 12px 18px; margin-bottom: 10px; background: var(--accent); color: var(--accent-fg);
+    border: 0; border-radius: 12px; font: 600 16px/1.2 inherit; text-align: center; text-decoration: none; cursor: pointer;
+    transition: filter .15s, transform .05s;
   }
+  .btn:hover { filter: brightness(1.06); }
+  .btn:active { transform: scale(.99); }
+  .btn:focus-visible, .copy:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
   .btn.sec { background: transparent; color: var(--fg); border: 1px solid var(--line); font-weight: 500; }
-  .btn:active { opacity: .8; }
-  .qr { margin: 18px auto 4px; width: 176px; height: 176px; background: #fff; padding: 8px; border-radius: 10px; }
+  .btn svg { width: 18px; height: 18px; flex: none; }
+  .meta { color: var(--muted); font-size: 13px; margin: 12px 0 0; }
+
+  .qr-box { display: none; align-items: center; gap: 16px; margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--line); }
+  .qr { width: 132px; height: 132px; flex: none; background: #fff; padding: 6px; border-radius: 10px; }
   .qr img, .qr canvas { display: block; width: 100%; height: 100%; }
-  .qr-note { text-align: center; color: var(--muted); font-size: 13px; margin: 0; }
-  .meta { color: var(--muted); font-size: 13px; margin: 14px 0 0; }
-  code { background: var(--code); padding: 2px 6px; border-radius: 5px; font-size: 13px;
-         font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }
-  .files a { color: var(--accent); }
-  .files div { margin-bottom: 6px; font-size: 14px; }
-  footer { color: var(--muted); font-size: 13px; text-align: center; margin-top: 32px; }
-  footer a { color: var(--accent); }
+  .qr-note { color: var(--muted); font-size: 13px; margin: 0; }
+  /* QR нужен только на десктопе: с телефона его сканировать нечем */
+  @media (hover: hover) and (min-width: 640px) { .qr-box { display: flex; } }
+
+  .cats summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .cats summary::-webkit-details-marker { display: none; }
+  .cats summary h2::after { content: ""; }
+  .chev { width: 20px; height: 20px; color: var(--muted); transition: transform .2s; flex: none; }
+  .cats[open] .chev { transform: rotate(180deg); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .chip { display: inline-flex; align-items: baseline; gap: 6px; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line); font-size: 14px; background: var(--bg); }
+  .chip i { font-style: normal; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .chip code { background: none; padding: 0; font-size: 12px; color: var(--muted); }
+  .chip.block { border-color: color-mix(in srgb, var(--stop) 40%, var(--line)); }
+  .chip.block::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--stop); align-self: center; }
+
+  .files { display: grid; gap: 8px; }
+  .file { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; min-width: 0; }
+  .file .ico { width: 34px; height: 34px; flex: none; border-radius: 9px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; }
+  .file .ico svg { width: 18px; height: 18px; }
+  .file div { min-width: 0; flex: 1; }
+  .file a { font-weight: 600; text-decoration: none; word-break: break-all; }
+  .file a:hover { text-decoration: underline; }
+  .file span { display: block; color: var(--muted); font-size: 13px; }
+
+  .copy-row { display: flex; gap: 8px; align-items: stretch; margin-top: 8px; }
+  code { background: var(--code); padding: 2px 6px; border-radius: 6px; font-size: 13px;
+         font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; word-break: break-all; }
+  .copy-row code { flex: 1; padding: 10px 12px; display: block; min-width: 0; }
+  .copy { flex: none; border: 1px solid var(--line); background: var(--card); color: var(--fg); border-radius: 8px; padding: 0 12px; font: 500 13px/1 inherit; cursor: pointer; }
+  .copy.done { color: var(--ok); border-color: var(--ok); }
+
+  footer { color: var(--muted); font-size: 13px; text-align: center; margin-top: 28px; line-height: 1.8; }
+  footer .sep { opacity: .5; margin: 0 6px; }
+
+  @media (max-width: 420px) {
+    h1 { font-size: 24px; }
+    .stat { padding: 10px; }
+    .stat b { font-size: 19px; }
+    .card { padding: 18px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>RU routing</h1>
-  <p class="lead">Российские сервисы идут напрямую, всё остальное — через туннель.
-     Доменов: 1142, категорий: 29. Реклама и трекеры блокируются (905 доменов). Откройте эту страницу на устройстве
-     с установленным приложением и нажмите кнопку.</p>
+  <header>
+    <div class="logo" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent-fg)"><circle cx="6" cy="19" r="2.2"/><circle cx="18" cy="5" r="2.2"/><path d="M8.2 19H15a3.5 3.5 0 0 0 0-7H9a3.5 3.5 0 0 1 0-7h6.8"/></svg>
+    </div>
+    <div>
+      <h1>RU routing</h1>
+      <p class="sub">роутинг для Happ, Incy и Xray</p>
+    </div>
+  </header>
 
-  <div class="card">
-    <h2>Happ</h2>
-    <p>Профиль весит меньше килобайта: списки лежат в наших гео-файлах, приложение
-       скачивает их само и обновляет раз в неделю.</p>
-    <a class="btn" href="happ://routing/onadd/eyJOYW1lIjoiUlUgYnlwYXNzIiwiR2xvYmFsUHJveHkiOiJ0cnVlIiwiUmVtb3RlRE5TVHlwZSI6IkRvSCIsIlJlbW90ZUROU0RvbWFpbiI6Imh0dHBzOi8vY2xvdWRmbGFyZS1kbnMuY29tL2Rucy1xdWVyeSIsIlJlbW90ZUROU0lQIjoiMS4xLjEuMSIsIkRvbWVzdGljRE5TVHlwZSI6IkRvVSIsIkRvbWVzdGljRE5TRG9tYWluIjoiIiwiRG9tZXN0aWNETlNJUCI6Ijc3Ljg4LjguOCIsIkRuc0hvc3RzIjp7ImNsb3VkZmxhcmUtZG5zLmNvbSI6IjEuMS4xLjEifSwiR2Vvc2l0ZXVybCI6Imh0dHBzOi8vZ2l0aHViLmNvbS9qdWhuc29vcWEvcnUtcm91dGluZy9yZWxlYXNlcy9sYXRlc3QvZG93bmxvYWQvcnUtcm91dGluZy1nZW9zaXRlLmRhdCIsIkdlb2lwdXJsIjoiaHR0cHM6Ly9naXRodWIuY29tL2p1aG5zb29xYS9ydS1yb3V0aW5nL3JlbGVhc2VzL2xhdGVzdC9kb3dubG9hZC9ydS1yb3V0aW5nLWdlb2lwLmRhdCIsIkRpcmVjdFNpdGVzIjpbImdlb3NpdGU6cnUtYXBwcyJdLCJEaXJlY3RJcCI6WyJnZW9pcDpydSIsIjEwLjAuMC4wLzgiLCIxNzIuMTYuMC4wLzEyIiwiMTkyLjE2OC4wLjAvMTYiLCIxNjkuMjU0LjAuMC8xNiIsIjIyNC4wLjAuMC80IiwiMjU1LjI1NS4yNTUuMjU1Il0sIlByb3h5U2l0ZXMiOltdLCJQcm94eUlwIjpbXSwiQmxvY2tTaXRlcyI6WyJnZW9zaXRlOmFkcyJdLCJCbG9ja0lwIjpbXSwiRG9tYWluU3RyYXRlZ3kiOiJJUElmTm9uTWF0Y2giLCJGYWtlRE5TIjoiZmFsc2UifQ==">Добавить и включить</a>
+  <p class="lead">Российские сервисы идут напрямую, всё остальное — через туннель.
+     Реклама и трекеры блокируются.</p>
+
+  <div class="stats">
+    <div class="stat"><b>1142</b><span><i class="dot" style="background:var(--ok)"></i>доменов напрямую</span></div>
+    <div class="stat"><b>29</b><span>категорий сервисов</span></div>
+    <div class="stat"><b>905</b><span><i class="dot" style="background:var(--stop)"></i>в блокировке</span></div>
+  </div>
+
+  <div class="how">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg>
+    <span>Откройте эту страницу на устройстве, где установлено приложение, и нажмите кнопку.
+      С компьютера — отсканируйте QR-код телефоном.</span>
+  </div>
+
+  <section class="card">
+    <div class="card-head"><h2>Happ</h2><span class="tag">меньше 1 КБ</span></div>
+    <p>Профиль ссылается на наши гео-файлы, приложение скачивает их само
+       и обновляет раз в неделю.</p>
+    <a class="btn" href="happ://routing/onadd/eyJOYW1lIjoiUlUgYnlwYXNzIiwiR2xvYmFsUHJveHkiOiJ0cnVlIiwiUmVtb3RlRE5TVHlwZSI6IkRvSCIsIlJlbW90ZUROU0RvbWFpbiI6Imh0dHBzOi8vY2xvdWRmbGFyZS1kbnMuY29tL2Rucy1xdWVyeSIsIlJlbW90ZUROU0lQIjoiMS4xLjEuMSIsIkRvbWVzdGljRE5TVHlwZSI6IkRvVSIsIkRvbWVzdGljRE5TRG9tYWluIjoiIiwiRG9tZXN0aWNETlNJUCI6Ijc3Ljg4LjguOCIsIkRuc0hvc3RzIjp7ImNsb3VkZmxhcmUtZG5zLmNvbSI6IjEuMS4xLjEifSwiR2Vvc2l0ZXVybCI6Imh0dHBzOi8vZ2l0aHViLmNvbS9qdWhuc29vcWEvcnUtcm91dGluZy9yZWxlYXNlcy9sYXRlc3QvZG93bmxvYWQvcnUtcm91dGluZy1nZW9zaXRlLmRhdCIsIkdlb2lwdXJsIjoiaHR0cHM6Ly9naXRodWIuY29tL2p1aG5zb29xYS9ydS1yb3V0aW5nL3JlbGVhc2VzL2xhdGVzdC9kb3dubG9hZC9ydS1yb3V0aW5nLWdlb2lwLmRhdCIsIkRpcmVjdFNpdGVzIjpbImdlb3NpdGU6cnUtYXBwcyJdLCJEaXJlY3RJcCI6WyJnZW9pcDpydSIsIjEwLjAuMC4wLzgiLCIxNzIuMTYuMC4wLzEyIiwiMTkyLjE2OC4wLjAvMTYiLCIxNjkuMjU0LjAuMC8xNiIsIjIyNC4wLjAuMC80IiwiMjU1LjI1NS4yNTUuMjU1Il0sIlByb3h5U2l0ZXMiOltdLCJQcm94eUlwIjpbXSwiQmxvY2tTaXRlcyI6WyJnZW9zaXRlOmFkcyJdLCJCbG9ja0lwIjpbXSwiRG9tYWluU3RyYXRlZ3kiOiJJUElmTm9uTWF0Y2giLCJGYWtlRE5TIjoiZmFsc2UifQ==">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+      Добавить и включить</a>
     <a class="btn sec" href="happ://routing/add/eyJOYW1lIjoiUlUgYnlwYXNzIiwiR2xvYmFsUHJveHkiOiJ0cnVlIiwiUmVtb3RlRE5TVHlwZSI6IkRvSCIsIlJlbW90ZUROU0RvbWFpbiI6Imh0dHBzOi8vY2xvdWRmbGFyZS1kbnMuY29tL2Rucy1xdWVyeSIsIlJlbW90ZUROU0lQIjoiMS4xLjEuMSIsIkRvbWVzdGljRE5TVHlwZSI6IkRvVSIsIkRvbWVzdGljRE5TRG9tYWluIjoiIiwiRG9tZXN0aWNETlNJUCI6Ijc3Ljg4LjguOCIsIkRuc0hvc3RzIjp7ImNsb3VkZmxhcmUtZG5zLmNvbSI6IjEuMS4xLjEifSwiR2Vvc2l0ZXVybCI6Imh0dHBzOi8vZ2l0aHViLmNvbS9qdWhuc29vcWEvcnUtcm91dGluZy9yZWxlYXNlcy9sYXRlc3QvZG93bmxvYWQvcnUtcm91dGluZy1nZW9zaXRlLmRhdCIsIkdlb2lwdXJsIjoiaHR0cHM6Ly9naXRodWIuY29tL2p1aG5zb29xYS9ydS1yb3V0aW5nL3JlbGVhc2VzL2xhdGVzdC9kb3dubG9hZC9ydS1yb3V0aW5nLWdlb2lwLmRhdCIsIkRpcmVjdFNpdGVzIjpbImdlb3NpdGU6cnUtYXBwcyJdLCJEaXJlY3RJcCI6WyJnZW9pcDpydSIsIjEwLjAuMC4wLzgiLCIxNzIuMTYuMC4wLzEyIiwiMTkyLjE2OC4wLjAvMTYiLCIxNjkuMjU0LjAuMC8xNiIsIjIyNC4wLjAuMC80IiwiMjU1LjI1NS4yNTUuMjU1Il0sIlByb3h5U2l0ZXMiOltdLCJQcm94eUlwIjpbXSwiQmxvY2tTaXRlcyI6WyJnZW9zaXRlOmFkcyJdLCJCbG9ja0lwIjpbXSwiRG9tYWluU3RyYXRlZ3kiOiJJUElmTm9uTWF0Y2giLCJGYWtlRE5TIjoiZmFsc2UifQ==">Только добавить</a>
     <p class="meta">Профиль обновляется повторным импортом: имя то же —
-       Happ заменит старый, переустанавливать ничего не нужно.
-       Гео-файлы приложение тянет само, но не чаще раза в неделю.</p>
-    <div class="qr" id="qr-happ"></div>
-    <p class="qr-note">Отсканируйте, чтобы открыть на телефоне</p>
-  </div>
+       Happ заменит старый, переустанавливать ничего не нужно.</p>
+    <div class="qr-box">
+      <div class="qr" id="qr-happ"></div>
+      <p class="qr-note">Наведите камеру телефона, чтобы открыть ссылку в Happ.</p>
+    </div>
+  </section>
 
-  <div class="card">
-    <h2>Incy</h2>
-    <p>Гео-файлы Incy не поддерживает, поэтому получает полный список по ссылке.
-       Вариант с автообновлением сам перечитывает его — список обновляется раз в 2 дня.</p>
-    <a class="btn" href="incy://autorouting/add/https://raw.githubusercontent.com/juhnsooqa/ru-routing/main/dist/incy-routing.json">Добавить с автообновлением</a>
+  <section class="card">
+    <div class="card-head"><h2>Incy</h2><span class="tag">автообновление</span></div>
+    <p>Incy не поддерживает гео-файлы, поэтому получает полный список по ссылке
+       и сам перечитывает его — список обновляется раз в 2 дня.</p>
+    <a class="btn" href="incy://autorouting/add/https://raw.githubusercontent.com/juhnsooqa/ru-routing/main/dist/incy-routing.json">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5"/></svg>
+      Добавить с автообновлением</a>
     <p class="meta">Разовый импорт ссылкой недоступен: со списком блокировки профиль весит 65 КБ, столько в deeplink не помещается. Используйте вариант с автообновлением выше.</p>
-    <div class="qr" id="qr-incy"></div>
-    <p class="qr-note">Отсканируйте, чтобы открыть на телефоне</p>
-  </div>
+    <div class="qr-box">
+      <div class="qr" id="qr-incy"></div>
+      <p class="qr-note">Наведите камеру телефона, чтобы открыть ссылку в Incy.</p>
+    </div>
+  </section>
 
-  <div class="card files">
+  <details class="card cats">
+    <summary>
+      <h2>Что идёт напрямую</h2>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+    </summary>
+    <div class="chips"><span class="chip" title="geosite: yandex">Яндекс Браузер / общая инфраструктура <i>114</i></span>
+      <span class="chip" title="geosite: yandex-maps">Яндекс Карты <i>6</i></span>
+      <span class="chip" title="geosite: vk">ВКонтакте <i>42</i></span>
+      <span class="chip" title="geosite: vk-video">VK Видео <i>5</i></span>
+      <span class="chip" title="geosite: vk-music">VK Music <i>4</i></span>
+      <span class="chip" title="geosite: mts">Мой МТС <i>15</i></span>
+      <span class="chip" title="geosite: sber">Сбербанк Онлайн <i>89</i></span>
+      <span class="chip" title="geosite: tbank">Т-Банк <i>114</i></span>
+      <span class="chip" title="geosite: vtb">ВТБ Онлайн <i>4</i></span>
+      <span class="chip" title="geosite: alfabank">Альфа-Банк <i>5</i></span>
+      <span class="chip" title="geosite: banks-ru">Российские банки (общий список апстрима) <i>217</i></span>
+      <span class="chip" title="geosite: gov-ru">Госсервисы: ФНС, Госуслуги, Мой налог <i>145</i></span>
+      <span class="chip" title="geosite: wildberries">Wildberries <i>99</i></span>
+      <span class="chip" title="geosite: ozon">Ozon <i>48</i></span>
+      <span class="chip" title="geosite: megamarket">MegaMarket <i>4</i></span>
+      <span class="chip" title="geosite: samokat">Самокат <i>2</i></span>
+      <span class="chip" title="geosite: food">Фастфуд: Вкусно и точка, Ростикс <i>3</i></span>
+      <span class="chip" title="geosite: azs">АЗС: Газпром и Газпромнефть <i>4</i></span>
+      <span class="chip" title="geosite: rzd">РЖД <i>2</i></span>
+      <span class="chip" title="geosite: kinopoisk">Кинопоиск <i>5</i></span>
+      <span class="chip" title="geosite: yandex-music">Yandex Music <i>5</i></span>
+      <span class="chip" title="geosite: rustore">RuStore <i>3</i></span>
+      <span class="chip" title="geosite: avito">Avito <i>5</i></span>
+      <span class="chip" title="geosite: 2gis">2ГИС <i>5</i></span>
+      <span class="chip" title="geosite: ok">Одноклассники <i>20</i></span>
+      <span class="chip" title="geosite: max">MAX <i>3</i></span>
+      <span class="chip" title="geosite: rutube">Rutube <i>6</i></span>
+      <span class="chip" title="geosite: mailru">Mail.ru / VK ID <i>165</i></span>
+      <span class="chip" title="geosite: payments">СБП / Mir Pay <i>4</i></span>
+      <span class="chip block" title="geosite: ads">Реклама и трекеры — в блокировку <i>905</i></span></div>
+    <p class="meta">Каждая категория — отдельная запись в geosite: <code>ext:ru-routing-geosite.dat:имя</code>.
+      Сводная <code>ru-apps</code> включает всё, кроме рекламы.</p>
+  </details>
+
+  <section class="card">
     <h2>Файлы</h2>
     <p>Для панели Remnawave, десктопного Xray и ручной настройки.</p>
-    <div><a href="https://github.com/juhnsooqa/ru-routing/releases/latest/download/ru-routing-geosite.dat">ru-routing-geosite.dat</a> — домены</div>
-    <div><a href="https://github.com/juhnsooqa/ru-routing/releases/latest/download/ru-routing-geoip.dat">ru-routing-geoip.dat</a> — IP-диапазоны</div>
-    <div><a href="https://raw.githubusercontent.com/juhnsooqa/ru-routing/main/dist/routing-ru-apps.json">routing-ru-apps.json</a> — секция routing для Xray</div>
-    <div><a href="https://raw.githubusercontent.com/juhnsooqa/ru-routing/main/dist/incy-routing.json">incy-routing.json</a> — правила для Incy</div>
-    <p class="meta">Ссылка для автообновления в Incy, если нужна текстом:<br>
-       <code>incy://autorouting/add/https://raw.githubusercontent.com/juhnsooqa/ru-routing/main/dist/incy-routing.json</code></p>
-  </div>
+    <div class="files">
+      <div class="file">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
+        <div><a href="https://github.com/juhnsooqa/ru-routing/releases/latest/download/ru-routing-geosite.dat">ru-routing-geosite.dat</a><span>домены по категориям</span></div>
+      </div>
+      <div class="file">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/></svg></div>
+        <div><a href="https://github.com/juhnsooqa/ru-routing/releases/latest/download/ru-routing-geoip.dat">ru-routing-geoip.dat</a><span>российские IP-диапазоны и приватные сети</span></div>
+      </div>
+      <div class="file">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></svg></div>
+        <div><a href="https://raw.githubusercontent.com/juhnsooqa/ru-routing/main/dist/routing-ru-apps.json">routing-ru-apps.json</a><span>секция routing для ноды Xray</span></div>
+      </div>
+      <div class="file">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></div>
+        <div><a href="https://raw.githubusercontent.com/juhnsooqa/ru-routing/main/dist/incy-routing.json">incy-routing.json</a><span>правила для Incy</span></div>
+      </div>
+    </div>
+    <p class="meta">Ссылка для автообновления в Incy, если нужна текстом:</p>
+    <div class="copy-row">
+      <code id="incy-link">incy://autorouting/add/https://raw.githubusercontent.com/juhnsooqa/ru-routing/main/dist/incy-routing.json</code>
+      <button class="copy" type="button" data-copy="incy-link">Копировать</button>
+    </div>
+  </section>
 
-  <footer>Списки собраны 15.10.2026 в 08:55 UTC &middot; обновляются автоматически раз в 2 дня &middot;
-    <a href="https://github.com/juhnsooqa/ru-routing">исходники на GitHub</a></footer>
+  <footer>
+    Списки собраны 16.10.2026 в 15:30 UTC<span class="sep">·</span>обновляются раз в 2 дня<br>
+    <a href="https://github.com/juhnsooqa/ru-routing">Исходники на GitHub</a><span class="sep">·</span><a href="https://github.com/juhnsooqa/ru-routing/releases/latest">Релиз</a><span class="sep">·</span><a href="https://juhnsooqa.github.io/meridian/">meridian — нода под ключ</a>
+  </footer>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -100,17 +248,32 @@
   function qr(id, text) {
     var el = document.getElementById(id);
     if (!el) return;
-    var note = el.nextElementSibling;
     try {
       if (typeof QRCode === 'undefined' || text.length > 2900) throw new Error('skip');
       new QRCode(el, { text: text, width: 160, height: 160, correctLevel: QRCode.CorrectLevel.L });
     } catch (e) {
-      el.remove();
-      if (note && note.classList.contains('qr-note')) note.remove();
+      el.parentNode.remove();
     }
   }
   qr('qr-happ', "happ://routing/onadd/eyJOYW1lIjoiUlUgYnlwYXNzIiwiR2xvYmFsUHJveHkiOiJ0cnVlIiwiUmVtb3RlRE5TVHlwZSI6IkRvSCIsIlJlbW90ZUROU0RvbWFpbiI6Imh0dHBzOi8vY2xvdWRmbGFyZS1kbnMuY29tL2Rucy1xdWVyeSIsIlJlbW90ZUROU0lQIjoiMS4xLjEuMSIsIkRvbWVzdGljRE5TVHlwZSI6IkRvVSIsIkRvbWVzdGljRE5TRG9tYWluIjoiIiwiRG9tZXN0aWNETlNJUCI6Ijc3Ljg4LjguOCIsIkRuc0hvc3RzIjp7ImNsb3VkZmxhcmUtZG5zLmNvbSI6IjEuMS4xLjEifSwiR2Vvc2l0ZXVybCI6Imh0dHBzOi8vZ2l0aHViLmNvbS9qdWhuc29vcWEvcnUtcm91dGluZy9yZWxlYXNlcy9sYXRlc3QvZG93bmxvYWQvcnUtcm91dGluZy1nZW9zaXRlLmRhdCIsIkdlb2lwdXJsIjoiaHR0cHM6Ly9naXRodWIuY29tL2p1aG5zb29xYS9ydS1yb3V0aW5nL3JlbGVhc2VzL2xhdGVzdC9kb3dubG9hZC9ydS1yb3V0aW5nLWdlb2lwLmRhdCIsIkRpcmVjdFNpdGVzIjpbImdlb3NpdGU6cnUtYXBwcyJdLCJEaXJlY3RJcCI6WyJnZW9pcDpydSIsIjEwLjAuMC4wLzgiLCIxNzIuMTYuMC4wLzEyIiwiMTkyLjE2OC4wLjAvMTYiLCIxNjkuMjU0LjAuMC8xNiIsIjIyNC4wLjAuMC80IiwiMjU1LjI1NS4yNTUuMjU1Il0sIlByb3h5U2l0ZXMiOltdLCJQcm94eUlwIjpbXSwiQmxvY2tTaXRlcyI6WyJnZW9zaXRlOmFkcyJdLCJCbG9ja0lwIjpbXSwiRG9tYWluU3RyYXRlZ3kiOiJJUElmTm9uTWF0Y2giLCJGYWtlRE5TIjoiZmFsc2UifQ==");
   qr('qr-incy', "incy://autorouting/add/https://raw.githubusercontent.com/juhnsooqa/ru-routing/main/dist/incy-routing.json");
+
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = document.getElementById(btn.dataset.copy).textContent;
+      var done = function () {
+        btn.textContent = 'Скопировано'; btn.classList.add('done');
+        setTimeout(function () { btn.textContent = 'Копировать'; btn.classList.remove('done'); }, 1800);
+      };
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done, function () {});
+      } else {
+        var r = document.createRange(); r.selectNodeContents(document.getElementById(btn.dataset.copy));
+        var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+        try { document.execCommand('copy'); done(); } catch (e) {}
+      }
+    });
+  });
 </script>
 </body>
 </html>
