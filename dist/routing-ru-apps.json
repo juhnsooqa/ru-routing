@@ -941,6 +941,9 @@
           "domain:yandexmetrica.com",
           "domain:mds.yandex.net",
           "domain:kinopoisk-ru.clstorage.net",
+          "domain:kp.yandex.net",
+          "full:kp-config-smart-tv.akamaized.net",
+          "full:kp-configs-smart-tv.s3.eu-central-1.amazonaws.com",
           "domain:yandex",
           "domain:xn--d1acpjx3f.xn--p1ai",
           "domain:berizaryad.ru",
@@ -1145,7 +1148,8 @@
           "domain:tvoyodbo.online",
           "domain:kion.ru",
           "domain:mtsmedia.ru",
-          "domain:on-media.ru"
+          "domain:on-media.ru",
+          "domain:mts-link.ru"
         ],
         "outboundTag": "DIRECT"
       },
@@ -1638,6 +1642,7 @@
           "domain:izbirkom.ru",
           "domain:kremlin.ru",
           "domain:mil.ru",
+          "domain:regionvideo.ru",
           "domain:xn--80ajghhoc2aj1c8b.xn--p1ai",
           "domain:xn--90aivcdt6dxbc.xn--p1ai",
           "domain:xn--b1afabzvcegckfhg.xn--p1ai",
@@ -1755,7 +1760,9 @@
           "domain:surgut.ru",
           "domain:yamal.ru",
           "domain:yanao.ru",
-          "domain:zdrav10.ru"
+          "domain:zdrav10.ru",
+          "domain:mospat.ru",
+          "domain:patriarchia.ru"
         ],
         "outboundTag": "DIRECT"
       },

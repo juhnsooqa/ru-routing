@@ -23,7 +23,7 @@
     incy://autorouting/add/https://raw.githubusercontent.com/juhnsooqa/ru-routing/main/dist/incy-routing.json
 
 Разовый импорт ссылкой недоступен: со списком блокировки профиль
-весит 65 КБ — столько в deeplink не помещается.
+весит 66 КБ — столько в deeplink не помещается.
 
 ## Прямые ссылки на файлы
 
