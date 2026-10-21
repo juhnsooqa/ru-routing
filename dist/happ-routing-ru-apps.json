@@ -504,6 +504,7 @@
         "domain:adsgram.ai",
         "full:browser-intake-datadoghq.com",
         "full:o33249.ingest.sentry.io",
+        "full:o33249.ingest.us.sentry.io",
         "full:openai.qualtrics.com",
         "full:ad.ozone.ru",
         "full:adv.ozon.ru",
@@ -2020,7 +2021,9 @@
         "domain:avito.st",
         "domain:avito.ma",
         "domain:avito-cdn.ru",
-        "domain:avitoscope.ru"
+        "domain:avitoscope.ru",
+        "domain:avito.com",
+        "domain:avito.tech"
       ],
       "outboundTag": "direct"
     },
