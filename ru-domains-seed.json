@@ -16,7 +16,9 @@
         "domain:yandex.st",
         "domain:appmetrica.yandex.ru",
         "domain:yandexmetrica.com",
-        "domain:mds.yandex.net"
+        "domain:mds.yandex.net",
+        "domain:appmetrica.yandex.net",
+        "domain:appmetrica.yandex.com"
       ]
     },
     "yandex-maps": {
