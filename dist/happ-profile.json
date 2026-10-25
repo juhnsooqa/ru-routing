@@ -10,8 +10,8 @@
   "DnsHosts": {
     "cloudflare-dns.com": "1.1.1.1"
   },
-  "Geositeurl": "https://github.com/juhnsooqa/ru-routing/releases/latest/download/ru-routing-geosite.dat",
-  "Geoipurl": "https://github.com/juhnsooqa/ru-routing/releases/latest/download/ru-routing-geoip.dat",
+  "Geositeurl": "https://juhnsooqa.github.io/ru-routing/ru-routing-geosite.dat",
+  "Geoipurl": "https://juhnsooqa.github.io/ru-routing/ru-routing-geoip.dat",
   "DirectSites": [
     "geosite:ru-apps"
   ],

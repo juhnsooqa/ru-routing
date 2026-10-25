@@ -28,6 +28,7 @@ import hashlib
 import html
 import json
 import os
+import shutil
 import sys
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -62,7 +63,8 @@ def b64(obj):
 
 def happ_profile(slug):
     """Профиль в формате Happ. Списки живут в .dat, здесь только ссылки на них."""
-    release = "https://github.com/%s/releases/latest/download" % slug
+    user, repo = slug.split("/", 1)
+    release = "https://%s.github.io/%s" % (user, repo)
     return {
         "Name": "RU bypass",
         "GlobalProxy": "true",
@@ -288,6 +290,10 @@ def main():
             page = page.replace(key, value)
         docs = os.path.join(BASE_DIR, "docs")
         os.makedirs(docs, exist_ok=True)
+        for dat in ("ru-routing-geosite.dat", "ru-routing-geoip.dat"):
+            src = os.path.join(DIST, dat)
+            if os.path.exists(src):
+                shutil.copyfile(src, os.path.join(docs, dat))
         with open(os.path.join(docs, "index.html"), "w", encoding="utf-8") as fh:
             fh.write(page)
         print("страница: docs/index.html")
