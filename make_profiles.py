@@ -61,7 +61,7 @@ def b64(obj):
 
 # --------------------------------------------------------------------------
 
-def happ_profile(slug):
+def happ_profile(slug, direct_cats):
     """Профиль в формате Happ. Списки живут в .dat, здесь только ссылки на них."""
     user, repo = slug.split("/", 1)
     release = "https://%s.github.io/%s" % (user, repo)
@@ -79,7 +79,7 @@ def happ_profile(slug):
         "DnsHosts": {"cloudflare-dns.com": "1.1.1.1"},
         "Geositeurl": "%s/ru-routing-geosite.dat" % release,
         "Geoipurl": "%s/ru-routing-geoip.dat" % release,
-        "DirectSites": ["geosite:ru-apps"],
+        "DirectSites": ["geosite:%s" % c for c in direct_cats],
         "DirectIp": [
             "geoip:ru",
             "10.0.0.0/8",
@@ -164,7 +164,9 @@ def main():
     slug = repo_slug(args.repo)
     raw = "https://raw.githubusercontent.com/%s/main" % slug
 
-    happ = happ_profile(slug)
+    direct_cats = [k for k, v in merged_groups().items()
+                   if v.get("action", "direct") != "block"]
+    happ = happ_profile(slug, direct_cats)
     incy = incy_routing()
 
     os.makedirs(DIST, exist_ok=True)
