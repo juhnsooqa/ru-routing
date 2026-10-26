@@ -99,10 +99,11 @@ def encode_geosite(categories):
     """{'ru-apps': ['domain:vk.com', ...]} -> содержимое geosite.dat."""
     out = bytearray()
     for name, entries in categories.items():
-        body = field_string(1, name.upper())          # Xray приводит код к верхнему регистру
-        for entry in entries:
-            body += field_bytes(2, encode_domain(entry))
-        out += field_bytes(1, bytes(body))
+        for written in {name.upper(), name.lower()}:
+            body = field_string(1, written)
+            for entry in entries:
+                body += field_bytes(2, encode_domain(entry))
+            out += field_bytes(1, bytes(body))
     return bytes(out)
 
 
@@ -118,10 +119,11 @@ def encode_cidr(network):
 def encode_geoip(groups):
     out = bytearray()
     for name, nets in groups.items():
-        body = field_string(1, name.upper())
-        for net in nets:
-            body += field_bytes(2, encode_cidr(net))
-        out += field_bytes(1, bytes(body))
+        for written in {name.upper(), name.lower()}:
+            body = field_string(1, written)
+            for net in nets:
+                body += field_bytes(2, encode_cidr(net))
+            out += field_bytes(1, bytes(body))
     return bytes(out)
 
 
@@ -170,8 +172,7 @@ def verify_geosite(path, expected):
             pos += size
             count += 1
         total += count
-    assert len(names) == len(expected), "категорий %d, ожидалось %d" % (len(names), len(expected))
-    assert set(names) == {n.upper() for n in expected}, "имена категорий разошлись"
+    assert set(names) == {n.upper() for n in expected} | {n.lower() for n in expected}, "имена категорий разошлись"
     return names, total
 
 
@@ -199,7 +200,7 @@ def verify_geoip(path, expected):
             prefix, cpos = read_varint(cidr, cpos)
             assert 0 <= prefix <= 128, "префикс %d" % prefix
             total += 1
-    assert set(names) == {n.upper() for n in expected}, "имена категорий разошлись"
+    assert set(names) == {n.upper() for n in expected} | {n.lower() for n in expected}, "имена категорий разошлись"
     return names, total
 
 
