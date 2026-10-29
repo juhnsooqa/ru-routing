@@ -1,18 +1,5 @@
 
 ’
-yandex	yandex.ru
-yandex.net
-yandex.com	ya.ruyastatic.netyandexcloud.net	yandex.stappmetrica.yandex.ruyandexmetrica.commds.yandex.netappmetrica.yandex.netappmetrica.yandex.comkinopoisk-ru.clstorage.netkp.yandex.net$ kp-config-smart-tv.akamaized.net51kp-configs-smart-tv.s3.eu-central-1.amazonaws.com
-yandexxn--d1acpjx3f.xn--p1aiberizaryad.ruberu.rubookmate.rucabconnect.orgclck.ruclstorage.netdelivery-club.rudriveawaytaxi.org
-edadeal.ruelama.ru
-foodfox.rugogettaxi.orggoup.aihayya.ae	market.ru	meteum.aimy-manager-account.com
-naydex.netrealtyverif.rurostaxi.org	rutaxi.rushedevrum.aishedevrum.comshedevrum.rusourcecraft.devstatic-storage.netsupport-uber.comtaxiaid.orgtaxiguru.orgtaxitax.orgthequestion.ruturbopages.orgvezet.ru	ya.ccyadi.skyandex-bank.netyandex-team.comyandex-team.ruyandex.aeroyandex.asia	yandex.az	yandex.byyandex.cloudyandex.co.ilyandex.com.amyandex.com.geyandex.com.ruyandex.com.tryandex.com.ua	yandex.de	yandex.ee	yandex.eu	yandex.fi	yandex.fr	yandex.ityandex.jobs	yandex.kg	yandex.kz	yandex.lt	yandex.lvyandex.market	yandex.mdyandex.mobiyandex.net.ru
-yandex.org	yandex.pl
-yandex.pro	yandex.sxyandex.taxi	yandex.tj	yandex.tm	yandex.tryandex.travel	yandex.ua	yandex.uzyandexadexchange.netyandexcom.netyandexdataschool.comyandexdataschool.ruyandexgo.comyandexlyceum.ruyandexwebcache.netyandexwebcache.orgyango-b2b.comyango-team.comyango-tech.comyango.africayango.aoyango.bhyango.co.il	yango.comyango.fiyango.qa
-yango.taxi
-yango.techyangofellowship.com
-yastat.netyastatic-net.ruyccdn.ruydb.techyndx.net
-’
 YANDEX	yandex.ru
 yandex.net
 yandex.com	ya.ruyastatic.netyandexcloud.net	yandex.stappmetrica.yandex.ruyandexmetrica.commds.yandex.netappmetrica.yandex.netappmetrica.yandex.comkinopoisk-ru.clstorage.netkp.yandex.net$ kp-config-smart-tv.akamaized.net51kp-configs-smart-tv.s3.eu-central-1.amazonaws.com
@@ -25,10 +12,23 @@ yandex.pro	yandex.sxyandex.taxi	yandex.tj	yandex.tm	ya
 yango.taxi
 yango.techyangofellowship.com
 yastat.netyastatic-net.ruyccdn.ruydb.techyndx.net
-¨
-YANDEX-MAPSmaps.yandex.rumaps.yandex.netstatic-maps.yandex.ru'#core-renderer-tiles.maps.yandex.nettiles.maps.yandex.netyandexnavi.ru
+’
+yandex	yandex.ru
+yandex.net
+yandex.com	ya.ruyastatic.netyandexcloud.net	yandex.stappmetrica.yandex.ruyandexmetrica.commds.yandex.netappmetrica.yandex.netappmetrica.yandex.comkinopoisk-ru.clstorage.netkp.yandex.net$ kp-config-smart-tv.akamaized.net51kp-configs-smart-tv.s3.eu-central-1.amazonaws.com
+yandexxn--d1acpjx3f.xn--p1aiberizaryad.ruberu.rubookmate.rucabconnect.orgclck.ruclstorage.netdelivery-club.rudriveawaytaxi.org
+edadeal.ruelama.ru
+foodfox.rugogettaxi.orggoup.aihayya.ae	market.ru	meteum.aimy-manager-account.com
+naydex.netrealtyverif.rurostaxi.org	rutaxi.rushedevrum.aishedevrum.comshedevrum.rusourcecraft.devstatic-storage.netsupport-uber.comtaxiaid.orgtaxiguru.orgtaxitax.orgthequestion.ruturbopages.orgvezet.ru	ya.ccyadi.skyandex-bank.netyandex-team.comyandex-team.ruyandex.aeroyandex.asia	yandex.az	yandex.byyandex.cloudyandex.co.ilyandex.com.amyandex.com.geyandex.com.ruyandex.com.tryandex.com.ua	yandex.de	yandex.ee	yandex.eu	yandex.fi	yandex.fr	yandex.ityandex.jobs	yandex.kg	yandex.kz	yandex.lt	yandex.lvyandex.market	yandex.mdyandex.mobiyandex.net.ru
+yandex.org	yandex.pl
+yandex.pro	yandex.sxyandex.taxi	yandex.tj	yandex.tm	yandex.tryandex.travel	yandex.ua	yandex.uzyandexadexchange.netyandexcom.netyandexdataschool.comyandexdataschool.ruyandexgo.comyandexlyceum.ruyandexwebcache.netyandexwebcache.orgyango-b2b.comyango-team.comyango-tech.comyango.africayango.aoyango.bhyango.co.il	yango.comyango.fiyango.qa
+yango.taxi
+yango.techyangofellowship.com
+yastat.netyastatic-net.ruyccdn.ruydb.techyndx.net
 ¨
 yandex-mapsmaps.yandex.rumaps.yandex.netstatic-maps.yandex.ru'#core-renderer-tiles.maps.yandex.nettiles.maps.yandex.netyandexnavi.ru
+¨
+YANDEX-MAPSmaps.yandex.rumaps.yandex.netstatic-maps.yandex.ru'#core-renderer-tiles.maps.yandex.nettiles.maps.yandex.netyandexnavi.ru
 Æ
 VK
 vk.com	vk.ruvkontakte.ruuserapi.com
@@ -48,24 +48,24 @@ vkforms.ruvkcdn.rumycdn.me	vk.me	vkplay.ruvkplay.liv
 cdn-vk.net	cdn-vk.ru
 userapi.ru	vk-cdn.mevk-portal.netvkcache.comvkcdnservice.comvkcloud-static.ruvktech-static.ruvkusercdn.ruvkuserphoto.ruvkuseraudio.ruvkuserlive.netvkuservideo.ruvkmessenger.appvkmessenger.com	vkpay.app	vkpay.comvkpay.iovkpay.ru
 b
-vk-video
-vkvideo.ruvkvideo.comvkuservideo.netvkuservideo.comvkvd.ru
-b
 VK-VIDEO
 vkvideo.ruvkvideo.comvkuservideo.netvkuservideo.comvkvd.ru
-J
-VK-MUSICmusic.vk.commusic.vk.ruboom.ru
-vkmusic.ru
+b
+vk-video
+vkvideo.ruvkvideo.comvkuservideo.netvkuservideo.comvkvd.ru
 J
 vk-musicmusic.vk.commusic.vk.ruboom.ru
 vkmusic.ru
+J
+VK-MUSICmusic.vk.commusic.vk.ruboom.ru
+vkmusic.ru
 ‹
-MTS
+mts
 mts.ru
 mtsbank.rumts.linkmtstv.rumts-corp.rumts-service.ru	mts.money
 mts-ws.netmymts.rudbo-dengi.onlinemtsdengi.rutvoyodbo.onlinekion.rumtsmedia.ruon-media.rumts-link.ru
 ‹
-mts
+MTS
 mts.ru
 mtsbank.rumts.linkmtstv.rumts-corp.rumts-service.ru	mts.money
 mts-ws.netmymts.rudbo-dengi.onlinemtsdengi.rutvoyodbo.onlinekion.rumtsmedia.ruon-media.rumts-link.ru
@@ -132,11 +132,11 @@ tb-esim.rutbank-online.comtconf.rutdev.bytime-messenger.
 tinkoff.aitinkoffcapital.rutinkoffinsurancefuture.rutinkoffjournal.rutinkoffmobile.comtinsurance.rutinsurancefuture.rutmiaf.rutpension.rutravel-tec.ru
 unidraw.ioxn--90aifd0az.shopxn--b1aechhj6bof8g5a.sitexn--d1abkf4ap.funxn--h1ao.sitecentraluniversity.ru	cu.ruprodcontest.comtinkoff-edu.ruedu.tinkoff.rueducation.tbank.ru
 B
-VTB
+vtb
 vtb.ruvtb24.ruvtb-online.ru
 vtbbank.ru
 B
-vtb
+VTB
 vtb.ruvtb24.ruvtb-online.ru
 vtbbank.ru
 g
@@ -144,7 +144,7 @@ g
 g
 ALFABANKalfabank.rualfabank.comalfabank.stalfabank.servicecdn.rualfa.ru
 Ž
-BANKS-RUalfa.mealfadirect.rumyapelsin.rubank131.com
+banks-rualfa.mealfadirect.rumyapelsin.rubank131.com
 bank131.ru
 isnbank.ru	snbank.rubcs-bank.ru
 bcs.ru	broker.ruchelinvest.ruinvestpay.rudbmoscow.rudeutsche-bank.rudeutschebank.ru	efbank.ruevrofinance.rucreditural.rugazprombank.comgazprombank.investmentsgazprombank.ru
@@ -195,7 +195,7 @@ tagbank.rutatsotsbank.ru	thbank.rutimerbank.rutoyota-bank
 uralsib.ruvbrr.ruvenets-bank.ru	vfbank.ru	vlb100.ruvlbb.ru
 wb-bank.ruziraatbank.ru
 Ž
-banks-rualfa.mealfadirect.rumyapelsin.rubank131.com
+BANKS-RUalfa.mealfadirect.rumyapelsin.rubank131.com
 bank131.ru
 isnbank.ru	snbank.rubcs-bank.ru
 bcs.ru	broker.ruchelinvest.ruinvestpay.rudbmoscow.rudeutsche-bank.rudeutschebank.ru	efbank.ruevrofinance.rucreditural.rugazprombank.comgazprombank.investmentsgazprombank.ru
@@ -364,17 +364,17 @@ Y
 
 MEGAMARKETmegamarket.rusbermegamarket.rumegamarket.techgoods.ru
 +
-samokat
-samokat.rusamokat.tech
-+
 SAMOKAT
 samokat.rusamokat.tech
++
+samokat
+samokat.rusamokat.tech
 8
-FOODvkusnoitochka.ru
+foodvkusnoitochka.ru
 rostics.ru
 kfc.ru
 8
-foodvkusnoitochka.ru
+FOODvkusnoitochka.ru
 rostics.ru
 kfc.ru
 N
@@ -384,10 +384,10 @@ N
 azsazsgazprom.rugazprom-neft.rugpnbonus.ru
 opti-24.ru
 #
-rzd
+RZD
 rzd.rurzd-bonus.ru
 #
-RZD
+rzd
 rzd.rurzd-bonus.ru
 n
 	KINOPOISKkinopoisk.rukinopoisk.viphd.kinopoisk.rustrm.yandex.rustrm.yandex.net
@@ -404,31 +404,31 @@ rustore.rurustore.devvkrustore.ru
 RUSTORE
 rustore.rurustore.devvkrustore.ru
 u
-AVITOavito.ruavito.stavito.maavito-cdn.ruavitoscope.ru	avito.com
+avitoavito.ruavito.stavito.maavito-cdn.ruavitoscope.ru	avito.com
 avito.tech
 u
-avitoavito.ruavito.stavito.maavito-cdn.ruavitoscope.ru	avito.com
+AVITOavito.ruavito.stavito.maavito-cdn.ruavitoscope.ru	avito.com
 avito.tech
 L
 2gis2gis.ru2gis.com2gis.io2gis.kz2gis.online
 L
 2GIS2gis.ru2gis.com2gis.io2gis.kz2gis.online
 û
-ok	ok.ruodnoklassniki.ruodnoklassniki.comokcdn.ru	ok.meapiok.ruinsideok.ruodkl.ruodnoklasniki.byodnoklasniki.uaodnoklassniki.amodnoklassniki.byodnoklassniki.co.eeodnoklassniki.euodnoklassniki.lvodnoklassniki.tj
-okl.lt	oktech.rust-ok-pts.cdn-vk.rust-ok.cdn-vk.ru
-û
 OK	ok.ruodnoklassniki.ruodnoklassniki.comokcdn.ru	ok.meapiok.ruinsideok.ruodkl.ruodnoklasniki.byodnoklasniki.uaodnoklassniki.amodnoklassniki.byodnoklassniki.co.eeodnoklassniki.euodnoklassniki.lvodnoklassniki.tj
 okl.lt	oktech.rust-ok-pts.cdn-vk.rust-ok.cdn-vk.ru
-0
-MAX
-max.ruoneme.rutamtam.chat
+û
+ok	ok.ruodnoklassniki.ruodnoklassniki.comokcdn.ru	ok.meapiok.ruinsideok.ruodkl.ruodnoklasniki.byodnoklasniki.uaodnoklassniki.amodnoklassniki.byodnoklassniki.co.eeodnoklassniki.euodnoklassniki.lvodnoklassniki.tj
+okl.lt	oktech.rust-ok-pts.cdn-vk.rust-ok.cdn-vk.ru
 0
 max
 max.ruoneme.rutamtam.chat
-g
-RUTUBE	rutube.rurutu.be	rutube.iorutubelist.ru	rtbcdn.rurutube.sport
+0
+MAX
+max.ruoneme.rutamtam.chat
 g
 rutube	rutube.rurutu.be	rutube.iorutubelist.ru	rtbcdn.rurutube.sport
+g
+RUTUBE	rutube.rurutu.be	rutube.iorutubelist.ru	rtbcdn.rurutube.sport
 ‹
 mailrumail.ruimgsmail.ru	mradx.netmy.gamesdzen.rudzeninfra.ru
 armgs.teambargipsy.com	boosty.todonationalerts.comhrtek.rukoddobra.ru
@@ -490,9 +490,9 @@ rustore.tvtarantool.iotarantoolplus.ru
 aodahl.comdahl.sudahlmessenger.comtelega.info	telega.metusco.ru	uma.mediaviqeo.tvviqeotv.comvkcloud-static.kz
 vkcloud.kzvkplay-arena.ruyoula.ioyoula.ru
 K
-paymentsnspk.rumironline.ru	psbank.ruraiffeisen.ru
-K
 PAYMENTSnspk.rumironline.ru	psbank.ruraiffeisen.ru
+K
+paymentsnspk.rumironline.ru	psbank.ruraiffeisen.ru
 ÄŸ
 ADS
 adriver.ru
