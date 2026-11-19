@@ -1,12 +1,12 @@
 {
-  "built_at": "2026-11-17T12:49:57Z",
+  "built_at": "2026-11-19T12:33:23Z",
   "repo": "juhnsooqa/ru-routing",
-  "domains_direct": 1155,
-  "domains_blocked": 909,
+  "domains_direct": 1154,
+  "domains_blocked": 910,
   "files": {
-    "ru-routing-geosite.dat": "5c5ac853ad4db19c5938ca1e69ed2bf2bc1cb8dc904a00077742064532546456",
-    "ru-routing-geoip.dat": "5e67172c2590225e10f1f81ebe042f51adefba044cb0b616b9a6eb8562bf695b",
-    "incy-routing.json": "b5f07906b285e3dfabf6bc3a90712ecc9b01be3648c2c8809a29f91d8c313952",
+    "ru-routing-geosite.dat": "4ddd459f3e9b79df20b95b73592acee1d2ddbce78394d616cdca3ea586dff006",
+    "ru-routing-geoip.dat": "b19031bee854da399b83c411a2a00180f1a5616ea7902712c7eef5e1bbac9914",
+    "incy-routing.json": "60c651ea3819d839a3738b1ca883f935d938da37918a102656ecd2d128e4618a",
     "happ-profile.json": "13837da0eca5d9a0c4afa61bd18ef861c5124755a3db111c106f45e3f8952735"
   }
 }
